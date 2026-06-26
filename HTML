@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>卡貝點數利潤計算器｜多單版 v25</title>
+<style>
+:root{--bg:#f6f2ea;--panel:#fffaf2;--panel2:#fff;--ink:#21170f;--muted:#7a6a59;--line:#e5d6c4;--accent:#9a663a;--accent2:#d99b5d;--danger:#b8322b;--good:#147a45;--warn:#a66a00;--shadow:0 10px 24px rgba(70,45,20,.10);--radius:18px}*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;background:linear-gradient(180deg,#fbf8f2 0%,var(--bg) 100%);color:var(--ink)}header{max-width:1240px;margin:auto;padding:26px 20px 8px}h1{margin:0 0 8px;font-size:30px;letter-spacing:.04em}.subtitle{color:var(--muted);font-size:14px;line-height:1.7}.container{max-width:1240px;margin:auto;padding:12px 20px 34px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}.card.white{background:var(--panel2)}.card.full{grid-column:1/-1}h2{font-size:18px;margin:0 0 14px}.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.row4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}label{display:block;color:var(--muted);font-size:13px;margin:9px 0 5px}input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font-size:15px;outline:none}input:focus,select:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(217,155,93,.20)}button{border:0;border-radius:12px;padding:11px 14px;background:var(--accent);color:#fff;cursor:pointer;font-weight:800;font-size:14px}button.secondary{background:#efe3d3;color:var(--ink);border:1px solid var(--line)}button.danger{background:var(--danger)}button:active{transform:translateY(1px)}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}.kpi .name{font-size:12px;color:var(--muted);margin-bottom:7px}.kpi .value{font-size:20px;font-weight:900;letter-spacing:.02em}.kpi.good .value{color:var(--good)}.kpi.bad .value{color:var(--danger)}.kpi.warn .value{color:var(--warn)}.notice{border-left:4px solid var(--accent2);padding:10px 12px;background:#fff7ea;color:#5c432b;border-radius:10px;font-size:14px;line-height:1.65;margin-top:12px}.notice.good{border-color:var(--good);background:#eefaf3;color:#184d33}.notice.danger{border-color:var(--danger);background:#fff1ef;color:#6a211b}.mini{font-size:12px;color:var(--muted);line-height:1.7}.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#efe3d3;color:#4a3826;font-size:12px;margin-left:6px}.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:16px;background:#fff}table{width:100%;min-width:1060px;border-collapse:collapse}th,td{border-bottom:1px solid var(--line);padding:10px 9px;text-align:left;font-size:13px;vertical-align:top}th{background:#f7efe4;color:#5b442e;position:sticky;top:0;z-index:1}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}tr:hover td{background:#fffaf4}.goodText{color:var(--good);font-weight:900}.badText{color:var(--danger);font-weight:900}.toggle{display:flex;gap:8px}.toggle button{flex:1;background:#efe3d3;color:#4a3826;border:1px solid var(--line)}.toggle button.active{background:var(--accent);color:#fff}.smallBtn{padding:7px 10px;font-size:12px;border-radius:10px}.card.collapsible h2{cursor:pointer;user-select:none;margin-bottom:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.card.collapsible.open h2{margin-bottom:14px}.card.collapsible h2::after{content:"點我展開";font-size:12px;font-weight:800;color:#5b442e;background:#efe3d3;border:1px solid var(--line);border-radius:999px;padding:4px 9px}.card.collapsible.open h2::after{content:"收合"}.collapse-body{display:none}.card.collapsible.open>.collapse-body{display:block}@media(max-width:960px){.grid,.row,.row3,.row4{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}@media(max-width:560px){.kpis{grid-template-columns:1fr}h1{font-size:24px}}@media print{header,.noPrint,.actions button,.card:not(.printable){display:none!important}body{background:#fff}.container{max-width:none;padding:0}.card{box-shadow:none;border:0}}
+.subline{font-size:11px;color:var(--muted);font-weight:400;margin-top:3px;line-height:1.35;white-space:nowrap}.slashMark{color:var(--muted);font-weight:700}input[disabled]{background:#f3eee7!important;color:#9b8a78!important;cursor:not-allowed}
+.row6{display:grid;grid-template-columns:1.1fr .85fr 1.1fr 1fr 1.15fr .65fr;gap:10px;align-items:end}
+.row6 button{width:100%}
+@media(max-width:1100px){.row6{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.row6{grid-template-columns:1fr}}
+
+.directSummary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0 0}
+.directSummary .sumBox{background:#fffaf2;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.directSummary .sumName{font-size:12px;color:var(--muted);margin-bottom:5px}
+.directSummary .sumValue{font-size:18px;font-weight:900}
+.directSummary .sumValue.goodText,.directSummary .sumValue.badText{font-weight:900}
+@media(max-width:800px){.directSummary{grid-template-columns:1fr}}
+
+/* v18 黑夜模式 */
+:root{
+  --bg:#0f141c;
+  --panel:#171f2b;
+  --panel2:#1b2634;
+  --ink:#edf2f7;
+  --muted:#9aa8ba;
+  --line:#2d3a4c;
+  --accent:#22a06b;
+  --accent2:#38c788;
+  --danger:#e0524d;
+  --good:#42c586;
+  --warn:#f0ad38;
+  --shadow:0 18px 38px rgba(0,0,0,.36);
+}
+body{
+  background:radial-gradient(circle at top left,#263449 0%,#121923 42%,#0b0f15 100%) !important;
+  color:var(--ink) !important;
+}
+.subtitle,.mini,label,.kpi .name,.subline{color:var(--muted) !important}
+.card,.card.white{
+  background:linear-gradient(180deg,rgba(29,40,55,.96),rgba(20,28,39,.96)) !important;
+  border-color:var(--line) !important;
+  box-shadow:var(--shadow) !important;
+}
+.kpi,.tableWrap{
+  background:#151d28 !important;
+  border-color:var(--line) !important;
+}
+input,select{
+  background:#101722 !important;
+  color:var(--ink) !important;
+  border-color:#344256 !important;
+}
+input::placeholder{color:#718095 !important}
+input:focus,select:focus{
+  border-color:var(--accent2) !important;
+  box-shadow:0 0 0 3px rgba(210,138,76,.22) !important;
+}
+input[disabled]{
+  background:#202838 !important;
+  color:#8795a8 !important;
+  border-color:#303d50 !important;
+}
+button{
+  background:linear-gradient(180deg,#2fcf87,#1f9f67) !important;
+  color:#fff !important;
+  box-shadow:0 8px 18px rgba(47,207,135,.18) !important;
+}
+button.secondary{
+  background:#253044 !important;
+  color:#e6edf5 !important;
+  border-color:#3a485c !important;
+}
+button.danger{
+  background:linear-gradient(180deg,#d84f4a,#a92f2d) !important;
+}
+.pill,.card.collapsible h2::after{
+  background:#253044 !important;
+  color:#e6edf5 !important;
+  border-color:#3a485c !important;
+}
+.notice{
+  background:#1d2634 !important;
+  color:#d8e0ea !important;
+  border-color:var(--accent2) !important;
+}
+.notice.good{
+  background:#14291f !important;
+  color:#c9f5df !important;
+  border-color:var(--good) !important;
+}
+.notice.danger{
+  background:#351d22 !important;
+  color:#ffd7d7 !important;
+  border-color:var(--danger) !important;
+}
+table{background:#121923 !important}
+th{
+  background:#202a39 !important;
+  color:#7ef0b6 !important;
+  border-color:#354155 !important;
+}
+td{
+  background:#151d28 !important;
+  color:#e8eef6 !important;
+  border-color:#2d3a4c !important;
+}
+tr:hover td{background:#1b2533 !important}
+.goodText{color:var(--good) !important}
+.badText{color:var(--danger) !important}
+.toggle button{
+  background:#253044 !important;
+  color:#dfe8f2 !important;
+  border-color:#3a485c !important;
+}
+.toggle button.active{
+  background:linear-gradient(180deg,#2fcf87,#1f9f67) !important;
+  color:#fff !important;
+}
+.directSummary .sumBox{
+  background:#151d28 !important;
+  border-color:var(--line) !important;
+}
+
+
+/* v19 綠色主題 */
+h1,h2{color:#f5fbff !important}
+.pill{
+  background:#183226 !important;
+  color:#7ef0b6 !important;
+  border:1px solid #29543f !important;
+}
+.notice{
+  border-left-color:#38c788 !important;
+}
+.card.collapsible h2::after{
+  background:#183226 !important;
+  color:#7ef0b6 !important;
+  border:1px solid #29543f !important;
+}
+th .pill, h2 .pill{color:#7ef0b6 !important}
+
+
+/* v20 全站字體加大約 2pt */
+body{font-size:18px !important}
+h1{font-size:33px !important}
+h2{font-size:21px !important}
+.subtitle{font-size:17px !important}
+label{font-size:16px !important}
+input,select,button{font-size:18px !important}
+button.smallBtn,.smallBtn{font-size:15px !important}
+.kpi .name{font-size:15px !important}
+.kpi .value{font-size:23px !important}
+.notice{font-size:17px !important}
+.mini{font-size:15px !important}
+.pill{font-size:15px !important}
+.card.collapsible h2::after{font-size:15px !important}
+th,td{font-size:16px !important}
+.subline{font-size:14px !important}
+.directSummary .sumName{font-size:15px !important}
+.directSummary .sumValue{font-size:21px !important}
+
+
+/* v22 修正輸入框 focus 外圍灰圈 */
+input,select,textarea{
+  outline:none !important;
+  box-shadow:none !important;
+  -webkit-appearance:none;
+  appearance:none;
+}
+input:focus,select:focus,textarea:focus{
+  outline:none !important;
+  border-color:#38c788 !important;
+  box-shadow:0 0 0 2px rgba(56,199,136,.14) !important;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+  opacity:1;
+}
+
+
+/* v23 黑夜街頭特色整合 */
+:root{
+  --street-red:#8b1f1f;
+  --street-red2:#c03030;
+  --neon-green:#36e89a;
+  --deep-panel:#121922;
+  --deep-card:#182230;
+}
+body{
+  background:
+    radial-gradient(circle at 12% 0%, rgba(54,232,154,.09), transparent 26%),
+    radial-gradient(circle at 88% 12%, rgba(139,31,31,.18), transparent 24%),
+    linear-gradient(180deg,#090d12 0%,#0f141c 45%,#080b10 100%) !important;
+}
+.heroHeader{
+  max-width:1240px;
+  margin:0 auto;
+  padding:18px 20px 10px;
+}
+.topStrip{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  padding:12px 0;
+  border-bottom:1px solid rgba(126,240,182,.28);
+  color:#8fa0b4;
+  font-size:14px !important;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  font-weight:800;
+}
+.stripLine{
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,rgba(54,232,154,.15),rgba(139,31,31,.75),rgba(54,232,154,.15));
+}
+.heroMain{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:22px;
+  padding-top:18px;
+}
+.heroMain h1{
+  border-left:5px solid var(--neon-green);
+  padding-left:16px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  text-shadow:0 0 22px rgba(54,232,154,.16);
+}
+.streetBadge{
+  min-width:128px;
+  border:3px solid #edf2f7;
+  padding:8px 12px;
+  text-align:center;
+  line-height:1;
+  box-shadow:0 0 0 1px rgba(255,255,255,.12), 0 14px 24px rgba(0,0,0,.25);
+}
+.badgeSmall{
+  font-size:10px !important;
+  letter-spacing:2px;
+  color:#b8c4d2;
+  font-weight:900;
+}
+.badgeLarge{
+  font-size:22px !important;
+  letter-spacing:1px;
+  color:#fff;
+  font-weight:1000;
+  margin:3px 0;
+}
+.card{
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:16px;
+  bottom:16px;
+  width:3px;
+  background:linear-gradient(180deg,var(--neon-green),rgba(139,31,31,.82));
+  border-radius:999px;
+  opacity:.9;
+}
+.card.full{
+  border-color:rgba(126,240,182,.20) !important;
+}
+.card.full:hover{
+  border-color:rgba(126,240,182,.36) !important;
+  box-shadow:0 20px 44px rgba(0,0,0,.42), inset 0 0 0 1px rgba(54,232,154,.04) !important;
+}
+h2{
+  letter-spacing:.5px;
+}
+.notice{
+  border-left-width:5px !important;
+}
+button{
+  letter-spacing:.3px;
+}
+button:hover{
+  filter:brightness(1.08);
+  transform:translateY(-1px);
+}
+button:active{
+  transform:translateY(0);
+}
+button.secondary:hover{
+  border-color:rgba(126,240,182,.55) !important;
+}
+button.danger{
+  background:linear-gradient(180deg,#d34848,#941f26) !important;
+  box-shadow:0 8px 18px rgba(211,72,72,.18) !important;
+}
+.tableWrap{
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.02);
+}
+th{
+  letter-spacing:.4px;
+}
+.kpi{
+  background:linear-gradient(180deg,#172130,#111923) !important;
+}
+.kpi .value{
+  text-shadow:0 0 18px rgba(54,232,154,.10);
+}
+.streetFooter{
+  grid-column:1/-1;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:20px;
+  margin-top:18px;
+  padding:18px 4px 0;
+  border-top:1px solid rgba(126,240,182,.18);
+  color:#8493a6;
+}
+.barcodeBlock{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.barcode{
+  width:170px;
+  height:38px;
+  opacity:.78;
+  background:repeating-linear-gradient(
+    90deg,
+    #dfe8f2,
+    #dfe8f2 2px,
+    transparent 2px,
+    transparent 6px,
+    #dfe8f2 6px,
+    #dfe8f2 7px,
+    transparent 7px,
+    transparent 11px
+  );
+}
+.barcodeNum{
+  font-family:monospace;
+  font-size:13px !important;
+  letter-spacing:2px;
+}
+.wave{
+  display:flex;
+  align-items:flex-end;
+  gap:4px;
+  height:34px;
+  opacity:.75;
+}
+.wave span{
+  width:3px;
+  background:linear-gradient(180deg,var(--neon-green),#304056);
+  animation:streetPulse 1.4s ease-in-out infinite alternate;
+}
+.wave span:nth-child(1){height:10px;animation-delay:.1s}
+.wave span:nth-child(2){height:25px;animation-delay:.35s}
+.wave span:nth-child(3){height:15px;animation-delay:.2s}
+.wave span:nth-child(4){height:30px;animation-delay:.55s}
+.wave span:nth-child(5){height:8px;animation-delay:.25s}
+.wave span:nth-child(6){height:21px;animation-delay:.45s}
+@keyframes streetPulse{
+  from{transform:scaleY(.62);opacity:.45}
+  to{transform:scaleY(1.25);opacity:1}
+}
+.footerWords{
+  font-size:13px !important;
+  letter-spacing:3px;
+  color:#8fa0b4;
+  font-weight:900;
+  text-align:right;
+}
+@media(max-width:780px){
+  .heroMain,.streetFooter{flex-direction:column;align-items:flex-start}
+  .streetBadge{align-self:flex-start}
+  .topStrip{font-size:11px !important;letter-spacing:2px}
+}
+
+
+/* v24 移除全部 number 輸入框上下箭頭 */
+input[type="number"]{
+  -moz-appearance:textfield !important;
+  appearance:textfield !important;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{
+  -webkit-appearance:none !important;
+  margin:0 !important;
+  display:none !important;
+}
+
+</style></head>
+<body>
+<header class="heroHeader">
+  <div class="topStrip">
+    <span>REAL RECOGNIZE REAL</span>
+    <span class="stripLine"></span>
+    <span>KABEI TRADE LEDGER</span>
+  </div>
+  <div class="heroMain">
+    <div>
+      <h1>卡貝點數利潤計算器｜多單版 v25</h1>
+      <div class="subtitle">每一單儲值都可獨立輸入匯率、人民幣成本、額外贈點；總成本與總庫存會依照每一單累加。交易紀錄會顯示售後累計收入、售後利潤與剩餘庫存。</div>
+    </div>
+    <div class="streetBadge">
+      <div class="badgeSmall">PROFIT</div>
+      <div class="badgeLarge">LEDGER</div>
+      <div class="badgeSmall">NO FEAR</div>
+    </div>
+  </div>
+</header>
+<div class="container"><section class="kpis" id="kpis"></section><div class="grid">
+<section class="card full collapsible" id="lotSection"><h2 onclick="toggleSection('lotSection')">1. 新增儲值單 <span class="pill" id="lotCount">0 單</span></h2><div class="collapse-body"><div class="row4"><div><label>匯率</label><input id="lotRate" type="number" min="0" step="0.01" value="4.78" oninput="previewLot()"></div><div><label>人民幣金額</label><input id="lotRmb" type="number" min="0" step="1" value="20000" oninput="previewLot()"></div><div><label>基礎點數</label><input id="lotBasePoints" type="number" min="0" step="1" value="100000" oninput="previewLot()"></div><div><label>額外贈點</label><input id="lotBonusPoints" type="number" min="0" step="1" value="10280" oninput="previewLot()"></div></div><div class="row4"><div><label>箱子數</label><input id="lotBoxes" type="number" min="0" step="1" value="100" oninput="previewLot()"></div><div><label>轉移次數</label><input id="lotTransfers" type="number" min="0" step="1" value="10" oninput="previewLot()"></div><div><label>備註</label><input id="lotNote" placeholder="例如：第一單、活動A"></div><div><label>本單日期</label><input id="lotDate" type="date"></div></div><div id="lotPreview" class="notice"></div><div class="actions"><button onclick="addLot()">加入儲值單</button><button class="secondary" onclick="fillLotDefault()">恢復預設單</button></div><div class="tableWrap" style="margin-top:14px"><table><thead><tr><th>日期</th><th>備註</th><th class="num">匯率</th><th class="num">人民幣</th><th class="num">本單成本</th><th class="num">基礎點</th><th class="num">贈點</th><th class="num">本單總點</th><th class="num">箱子</th><th class="num">轉移</th><th class="num">累計成本</th><th class="num">累計點數</th><th class="noPrint">操作</th></tr></thead><tbody id="lotsBody"></tbody></table></div></div></section>
+<section class="card full collapsible" id="proxyRuleSection"><h2 onclick="toggleSection('proxyRuleSection')">2. 代儲規則設定</h2><div class="collapse-body"><div class="row"><div><label>代儲給點加成 %</label><input id="proxyBonusPct" type="number" min="0" step="0.01" value="2.04" oninput="saveSettingOnly();autoProxy();"></div><div><label>每 10000 台幣給幾箱</label><input id="proxyBoxesPer10000" type="number" min="0" step="1" value="10" oninput="saveSettingOnly();autoProxy();"></div></div><div class="row"><div><label>每 10000 台幣可給幾次轉移</label><input id="proxyTransfersPer10000" type="number" min="0" step="1" value="1" oninput="saveSettingOnly();autoProxy();"></div><div><label>代儲點數基準</label><input value="客人金額 × (1 + 加成%)" disabled></div></div><div class="notice">例：客人給 10000 台幣，加成 2.04% → 給 10204 點；箱子給 10 個；轉移給或不給由交易時切換。</div></div></section>
+<section class="card full collapsible" id="exchangeSection"><h2 onclick="toggleSection('exchangeSection')">3. 商品交換卡貝</h2><div class="collapse-body"><div class="notice">儲值箱子 1 個 = 250 點；轉移裝備 1 次 = 1500 點。交換完成後會扣除剩餘箱子 / 剩餘轉移，並增加剩餘點數。</div><div class="row3"><div><label>儲值箱子數量</label><input id="exchangeBoxQty" type="number" min="0" step="1" placeholder="輸入箱子數量" oninput="calcExchange()"></div><div><label>換成點數</label><input id="exchangeBoxPoints" disabled placeholder="自動計算"></div><div><label>確認交換</label><button onclick="confirmExchange('box')">確定交換箱子</button></div></div><div class="row3"><div><label>轉移裝備數量</label><input id="exchangeTransferQty" type="number" min="0" step="1" placeholder="輸入轉移數量" oninput="calcExchange()"></div><div><label>換成點數</label><input id="exchangeTransferPoints" disabled placeholder="自動計算"></div><div><label>確認交換</label><button onclick="confirmExchange('transfer')">確定交換轉移</button></div></div><div class="tableWrap" style="margin-top:14px"><table><thead><tr><th>日期</th><th>交換項目</th><th class="num">交換數量</th><th class="num">增加點數</th><th class="noPrint">操作</th></tr></thead><tbody id="exchangeBody"></tbody></table></div></div></section>
+<section class="card white full"><h2>4. 一般商品交易</h2><div class="row"><div><label>輸入台幣</label><input id="quotePoints" type="number" min="0" step="1" placeholder="輸入台幣金額" oninput="renderQuote()"></div><div><label>點數匯率</label><input id="pointRate" type="number" min="0" step="0.01" value="1.5" oninput="saveSettingOnly();renderQuote();previewTx();"></div></div><div class="row"><div><label>箱子數量</label><input id="quoteBoxes" type="number" min="0" step="1" placeholder="輸入箱子數量" oninput="renderQuote()"></div><div><label>箱子單價</label><input id="quoteBoxPrice" type="number" min="0" step="1" placeholder="輸入箱子單價" oninput="renderQuote()"></div></div><div class="row"><div><label>轉移次數</label><input id="quoteTransfers" type="number" min="0" step="1" placeholder="輸入轉移次數" oninput="renderQuote()"></div><div><label>轉移單價</label><input id="quoteTransferPrice" type="number" min="0" step="1" placeholder="輸入轉移單價" oninput="renderQuote()"></div></div><div class="row"><div style="grid-column:1/-1"><label>備註</label><input id="quoteNote" placeholder="例如：輸入1000台幣、10箱、客人A、箱子220"></div></div><div id="quoteResult" class="notice good"></div><div class="actions"><button onclick="addQuoteTransaction()">新增交易</button><button class="secondary" onclick="clearQuoteFields();renderQuote()">清空輸入</button></div></section>
+<section class="card full collapsible" id="proxyTradeSection"><h2 onclick="toggleSection('proxyTradeSection')">5. 代儲合資交易</h2><div class="collapse-body"><div class="row"><div><label>日期</label><input id="txDate" type="date"></div><div><label>客人 / 備註</label><input id="txNote" placeholder="例如：客人給10000、不給轉移"></div></div><div id="proxyBox"><div class="row3"><div><label>客人給你多少台幣</label><input id="proxyAmount" type="number" min="0" step="1" placeholder="輸入台幣金額" oninput="autoProxy()"></div><div><label>轉移裝備：給 / 不給</label><div class="toggle"><button id="proxyTransferNo" type="button" class="active" onclick="setTransferGiven('proxy',false)">不給</button><button id="proxyTransferYes" type="button" onclick="setTransferGiven('proxy',true)">給</button></div></div><div><label>交付轉移次數</label><input id="proxyTransfers" type="number" min="0" step="1" value="0" disabled oninput="previewTx()"></div></div><div class="row3"><div><label>自動計算交付點數</label><input id="proxyPoints" type="number" min="0" step="1" oninput="previewTx()"></div><div><label>自動計算交付箱子</label><input id="proxyBoxes" type="number" min="0" step="1" oninput="previewTx()"></div><div><label>實收金額</label><input id="proxyAmountMirror" disabled></div></div></div><div id="saleBox" style="display:none"><input id="saleAmount"><input id="salePoints"><input id="saleBoxes"><input id="saleTransfers"><input id="saleSuggest"></div><div id="txPreview" class="notice"></div><div class="actions"><button onclick="addTransaction()">新增交易</button><button class="secondary" onclick="previewTx()">重新計算</button><button class="secondary" onclick="clearTxForm()">清空輸入</button></div></div></section>
+<section class="card printable full"><h2>6. 交易紀錄 <span class="pill" id="recordCount">0 筆</span></h2><div class="actions noPrint"><button class="secondary" onclick="exportCsv()">匯出交易 CSV</button><button class="secondary" onclick="exportLotsCsv()">匯出儲值單 CSV</button><button class="secondary" onclick="exportJson()">備份 JSON</button><button class="secondary" onclick="document.getElementById('importFile').click()">匯入 JSON</button><input id="importFile" type="file" accept=".json" style="display:none" onchange="importJson(event)"><button class="secondary" onclick="window.print()">列印</button></div><div class="tableWrap"><table><thead><tr><th>日期</th><th>類型</th><th>備註</th><th class="num">實收</th><th class="num">點數</th><th class="num">箱子</th><th class="num">轉移</th><th>轉移狀態</th><th class="num">累計收入</th><th class="num">售後利潤</th><th class="num">剩餘點數</th><th class="num">剩餘箱子</th><th class="num">剩餘轉移</th><th class="noPrint">操作</th></tr></thead><tbody id="recordsBody"></tbody></table></div></section>
+<section class="card full"><h2>7. 點數代儲</h2><div class="notice">此區獨立計算，不會影響上方儲值單、庫存、交易紀錄與利潤。</div><div class="row6"><div><label>輸入人民幣</label><input id="directRmb" type="number" min="0" step="0.01" placeholder="人民幣" oninput="calcDirectProxy(false)"></div><div><label>輸入匯率</label><input id="directRate" type="number" min="0" step="0.01" placeholder="匯率" oninput="calcDirectProxy(false)"></div><div><label>輸入實收台幣</label><input id="directReceived" type="number" min="0" step="1" placeholder="實收台幣" oninput="calcDirectProxy(false)"></div><div><label>利潤</label><input id="directProfit" disabled placeholder="自動計算"></div><div><label>備註</label><input id="directNote" placeholder="備註"></div><div><label>確定</label><button onclick="addDirectProxyRecord()">確定</button></div></div><div id="directSummary" class="directSummary"></div><div class="tableWrap" style="margin-top:14px"><table><thead><tr><th>日期</th><th class="num">人民幣</th><th class="num">匯率</th><th class="num">成本</th><th class="num">實收台幣</th><th class="num">利潤</th><th>備註</th><th class="noPrint">操作</th></tr></thead><tbody id="directProxyBody"></tbody></table></div></section>
+<section class="card full"><h2>公式說明</h2><div class="mini"><b>每一單成本</b> = 該單匯率 × 該單人民幣金額。<br><b>總成本</b> = 所有儲值單成本相加。<br><b>每一單點數</b> = 該單基礎點數 + 該單額外贈點。<br><b>售後利潤</b> = 截至該筆交易的累計實收金額 − 目前所有儲值單總成本。<br><b>轉移不給</b> = 不扣轉移庫存，可留著之後單獨販售。<br><b>商品交換卡貝</b> = 箱子 / 轉移換點數，不影響收入與成本，只改變剩餘庫存。<br><b>點數代儲</b> = 獨立紀錄，利潤會自動計算，不影響上方主交易資料。</div></section>
+</div>
+<footer class="streetFooter">
+  <div class="barcodeBlock">
+    <div class="barcode"></div>
+    <div class="barcodeNum">2026 06 27 KABEI SYSTEM</div>
+  </div>
+  <div class="wave" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="footerWords">FLOW / RATE / PROFIT / CONTROL</div>
+</footer>
+</div>
+<script>
+const STORE_KEY="kabei_profit_multi_lot_v4";let state={settings:{pointRate:1.5,proxyBonusPct:2.04,proxyBoxesPer10000:10,proxyTransfersPer10000:1},lots:[],transactions:[],exchanges:[],directProxyRecords:[],transferGiven:{sale:false,proxy:false}};
+function getDirectProxyCalc(){const rmb=n(document.getElementById("directRmb")?.value),rate=n(document.getElementById("directRate")?.value),received=n(document.getElementById("directReceived")?.value),note=(document.getElementById("directNote")?.value||"").trim(),cost=rmb*rate,profit=received-cost;return{rmb,rate,received,note,cost,profit}}function calcDirectProxy(showAlert=false){const d=getDirectProxyCalc(),profitEl=document.getElementById("directProfit");if(profitEl)profitEl.value=(d.rmb>0||d.rate>0||d.received>0)?"$ "+money(d.profit):"";if(showAlert&&(d.rmb<=0||d.rate<=0||d.received<=0))alert("請輸入人民幣、匯率、實收台幣。")}function addDirectProxyRecord(){const d=getDirectProxyCalc();calcDirectProxy(true);if(d.rmb<=0||d.rate<=0||d.received<=0)return;state.directProxyRecords=state.directProxyRecords||[];state.directProxyRecords.push({id:id(),date:today(),rmb:d.rmb,rate:d.rate,received:d.received,cost:d.cost,profit:d.profit,note:d.note});save();renderDirectProxyRecords();["directRmb","directRate","directReceived","directProfit","directNote"].forEach(id=>{const el=document.getElementById(id);if(el)el.value=""})}function renderDirectProxyRecords(){const body=document.getElementById("directProxyBody"),summary=document.getElementById("directSummary"),records=state.directProxyRecords||[];if(summary){const totalCost=records.reduce((a,r)=>a+n(r.cost),0),totalReceived=records.reduce((a,r)=>a+n(r.received),0),totalProfit=records.reduce((a,r)=>a+n(r.profit),0);summary.innerHTML=`<div class="sumBox"><div class="sumName">點數代儲筆數</div><div class="sumValue">${qty(records.length)} 筆</div></div><div class="sumBox"><div class="sumName">累計實收台幣</div><div class="sumValue">$ ${money(totalReceived)}</div></div><div class="sumBox"><div class="sumName">點數代儲總利潤</div><div class="sumValue ${totalProfit>=0?'goodText':'badText'}">$ ${money(totalProfit)}</div></div>`}if(!body)return;const rows=records.map((r,i)=>`<tr><td>${esc(r.date)}</td><td class="num">${qty(r.rmb)}</td><td class="num">${Number(r.rate||0).toFixed(2)}</td><td class="num">$ ${money(r.cost)}</td><td class="num">$ ${money(r.received)}</td><td class="num ${n(r.profit)>=0?'goodText':'badText'}">$ ${money(r.profit)}</td><td>${esc(r.note||"")}</td><td class="noPrint"><button class="smallBtn danger" onclick="deleteDirectProxyRecord(${i})">刪除</button></td></tr>`).join("");body.innerHTML=rows||`<tr><td colspan="8" class="mini">尚無點數代儲交易紀錄。</td></tr>`}function deleteDirectProxyRecord(i){if(!confirm("確定刪除此點數代儲紀錄？"))return;(state.directProxyRecords||[]).splice(i,1);save();renderDirectProxyRecords()}function toggleSection(id){const el=document.getElementById(id);if(el)el.classList.toggle("open")}function clearQuoteFields(){["quotePoints","quoteBoxPrice","quoteBoxes","quoteTransferPrice","quoteTransfers","quoteNote"].forEach(id=>{const el=document.getElementById(id);if(el)el.value=""})}function today(){const d=new Date(),z=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`}function n(v){const x=Number(v);return isFinite(x)?x:0}function money(v){return Number(v||0).toLocaleString("zh-TW",{maximumFractionDigits:0})}function qty(v){return Number(v||0).toLocaleString("zh-TW",{maximumFractionDigits:0})}function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}function save(){localStorage.setItem(STORE_KEY,JSON.stringify(state))}function id(){return Date.now()+"_"+Math.random().toString(16).slice(2)}
+function load(){const saved=localStorage.getItem(STORE_KEY);if(saved){try{const data=JSON.parse(saved);state={...state,...data};state.settings={...state.settings,...(data.settings||{})};state.lots=Array.isArray(data.lots)?data.lots:[];state.transactions=Array.isArray(data.transactions)?data.transactions:[];state.exchanges=Array.isArray(data.exchanges)?data.exchanges:[];state.directProxyRecords=Array.isArray(data.directProxyRecords)?data.directProxyRecords:[];state.transferGiven={...state.transferGiven,...(data.transferGiven||{})}}catch(e){}}else{state.lots=[];save()}document.getElementById("lotDate").value=today();document.getElementById("txDate").value=today();bindSettings();clearQuoteFields();setTransferGiven("sale",state.transferGiven.sale,false);setTransferGiven("proxy",state.transferGiven.proxy,false);previewLot();renderAll();renderQuote();autoProxy();previewTx();calcDirectProxy(false)}
+function bindSettings(){document.getElementById("pointRate").value=state.settings.pointRate;document.getElementById("proxyBonusPct").value=state.settings.proxyBonusPct;document.getElementById("proxyBoxesPer10000").value=state.settings.proxyBoxesPer10000;document.getElementById("proxyTransfersPer10000").value=state.settings.proxyTransfersPer10000}function saveSettingOnly(){state.settings.pointRate=n(document.getElementById("pointRate").value);state.settings.proxyBonusPct=n(document.getElementById("proxyBonusPct").value);state.settings.proxyBoxesPer10000=n(document.getElementById("proxyBoxesPer10000").value);state.settings.proxyTransfersPer10000=n(document.getElementById("proxyTransfersPer10000").value);save();renderAll()}
+function getLotFromInput(){return{id:id(),date:document.getElementById("lotDate").value||today(),note:document.getElementById("lotNote").value.trim(),rate:n(document.getElementById("lotRate").value),rmb:n(document.getElementById("lotRmb").value),basePoints:n(document.getElementById("lotBasePoints").value),bonusPoints:n(document.getElementById("lotBonusPoints").value),boxes:n(document.getElementById("lotBoxes").value),transfers:n(document.getElementById("lotTransfers").value)}}function lotCost(l){return n(l.rate)*n(l.rmb)}function lotPoints(l){return n(l.basePoints)+n(l.bonusPoints)}function lotTotals(lots=state.lots){return lots.reduce((a,l)=>{a.cost+=lotCost(l);a.points+=lotPoints(l);a.boxes+=n(l.boxes);a.transfers+=n(l.transfers);return a},{cost:0,points:0,boxes:0,transfers:0})}
+function previewLot(){const lot=getLotFromInput(),after=lotTotals([...state.lots,lot]);document.getElementById("lotPreview").innerHTML=`本單成本：<b>$ ${money(lotCost(lot))}</b>　本單點數：<b>${qty(lotPoints(lot))}</b>　本單箱子：<b>${qty(lot.boxes)}</b>　本單轉移：<b>${qty(lot.transfers)}</b><br>加入後總成本：<b>$ ${money(after.cost)}</b>　加入後總點數：<b>${qty(after.points)}</b>　加入後箱子數量：<b>${qty(after.boxes)}</b>　加入後轉移次數：<b>${qty(after.transfers)}</b>`}function addLot(){const lot=getLotFromInput();if(lot.rate<=0||lot.rmb<=0){alert("請輸入匯率與人民幣金額。");return}state.lots.push(lot);save();renderAll();previewLot();previewTx()}function fillLotDefault(){document.getElementById("lotRate").value=4.78;document.getElementById("lotRmb").value=20000;document.getElementById("lotBasePoints").value=100000;document.getElementById("lotBonusPoints").value=10280;document.getElementById("lotBoxes").value=100;document.getElementById("lotTransfers").value=10;document.getElementById("lotNote").value="";document.getElementById("lotDate").value=today();previewLot()}function clearLots(){if(!confirm("確定清空全部儲值單？交易紀錄會保留，但可能造成庫存與利潤重新計算。"))return;state.lots=[];save();renderAll();previewLot();previewTx()}function deleteLot(i){if(!confirm("確定刪除此儲值單？總成本與庫存會重新計算。"))return;state.lots.splice(i,1);save();renderAll();previewLot();previewTx()}function duplicateLot(i){const lot={...state.lots[i],id:id(),date:today(),note:(state.lots[i].note||"")+" 複製"};state.lots.push(lot);save();renderAll();previewTx()}
+function soldTotals(){return state.transactions.reduce((a,t)=>{a.amount+=n(t.amount);a.points+=n(t.points);a.boxes+=n(t.boxes);a.transfers+=n(t.transfers);return a},{amount:0,points:0,boxes:0,transfers:0})}function exchangeTotals(){return (state.exchanges||[]).reduce((a,e)=>{const q=n(e.qty),p=n(e.points);if(e.type==="box"){a.boxes+=q;a.points+=p}else if(e.type==="transfer"){a.transfers+=q;a.points+=p}return a},{points:0,boxes:0,transfers:0})}function inventoryTotals(){const lt=lotTotals(),ex=exchangeTotals();return{cost:lt.cost,points:lt.points+ex.points,boxes:lt.boxes-ex.boxes,transfers:lt.transfers-ex.transfers}}function totals(){const lt=inventoryTotals(),st=soldTotals();return{...lt,sold:st,remainPoints:lt.points-st.points,remainBoxes:lt.boxes-st.boxes,remainTransfers:lt.transfers-st.transfers,profit:st.amount-lt.cost}}
+function renderKpis(){const t=totals(),back=t.cost?t.sold.amount/t.cost*100:0,w=t.remainPoints<0||t.remainBoxes<0||t.remainTransfers<0,items=[["總成本","$ "+money(t.cost),""],["累計收入","$ "+money(t.sold.amount),""],["目前售後利潤","$ "+money(t.profit),t.profit>=0?"good":"bad"],["回本率",back.toFixed(1)+"%",back>=100?"good":"warn"],["剩餘點數",qty(t.remainPoints),t.remainPoints<0?"bad":""],["剩餘箱子",qty(t.remainBoxes),t.remainBoxes<0?"bad":""],["剩餘轉移",qty(t.remainTransfers),t.remainTransfers<0?"bad":""],["庫存狀態",w?"超賣":"正常",w?"bad":"good"]];document.getElementById("kpis").innerHTML=items.map(x=>`<div class="kpi ${x[2]}"><div class="name">${x[0]}</div><div class="value">${x[1]}</div></div>`).join("")}
+function renderLots(){let cc=0,cp=0;const rows=state.lots.map((l,i)=>{const c=lotCost(l),p=lotPoints(l);cc+=c;cp+=p;return `<tr><td>${esc(l.date)}</td><td>${esc(l.note)}</td><td class="num">${Number(l.rate).toFixed(2)}</td><td class="num">${money(l.rmb)}</td><td class="num">$ ${money(c)}</td><td class="num">${qty(l.basePoints)}</td><td class="num">${qty(l.bonusPoints)}</td><td class="num">${qty(p)}</td><td class="num">${qty(l.boxes)}</td><td class="num">${qty(l.transfers)}</td><td class="num">$ ${money(cc)}</td><td class="num">${qty(cp)}</td><td class="noPrint"><button class="smallBtn danger" onclick="deleteLot(${i})">刪除</button></td></tr>`}).join("");document.getElementById("lotsBody").innerHTML=rows||`<tr><td colspan="13" class="mini">尚無儲值單。請先新增至少一單，才會有成本與庫存。</td></tr>`;document.getElementById("lotCount").textContent=`${state.lots.length} 單`}
+function getQuoteCalc(){const rate=n(document.getElementById("pointRate").value),twd=n(document.getElementById("quotePoints").value),bp=n(document.getElementById("quoteBoxPrice").value),bq=n(document.getElementById("quoteBoxes").value),tp=n(document.getElementById("quoteTransferPrice").value),tq=n(document.getElementById("quoteTransfers").value),p=Math.round(twd*rate),pp=twd,bp2=bp*bq,tp2=tp*tq,total=pp+bp2+tp2,note=(document.getElementById("quoteNote")?document.getElementById("quoteNote").value.trim():"");return{rate,twd,p,bp,bq,tp,tq,pp,bp2,tp2,total,note}}function renderQuote(){const q=getQuoteCalc();document.getElementById("quoteResult").innerHTML=`點數售價：<b>$ ${money(q.pp)}</b>（交付 <b>${qty(q.p)}</b> 點）　箱子售價：<b>$ ${money(q.bp2)}</b>　轉移售價：<b>$ ${money(q.tp2)}</b><br>建議合計售價：<b>$ ${money(q.total)}</b>`}function addQuoteTransaction(){const q=getQuoteCalc();if(q.total<=0&&q.p<=0&&q.bq<=0&&q.tq<=0){alert("請先輸入台幣金額、箱子或轉移內容。");return}const tx={id:id(),date:today(),type:"sale",note:q.note,amount:Math.round(q.total),points:q.p,boxes:q.bq,transfers:q.tq,transferGiven:q.tq>0,boxUnitPrice:q.bp,transferUnitPrice:q.tp};const t=totals(),rp=t.remainPoints-tx.points,rb=t.remainBoxes-tx.boxes,rt=t.remainTransfers-tx.transfers;if((rp<0||rb<0||rt<0)&&!confirm("這筆新增後會出現超賣，仍要新增嗎？"))return;state.transactions.push(tx);save();renderAll();clearQuoteFields();renderQuote();previewTx()}function copyQuoteToSale(){addQuoteTransaction()}
+function updateProxyTransferInput(){const el=document.getElementById("proxyTransfers");if(!el)return;if(state.transferGiven.proxy){el.disabled=false;if(n(el.value)===0){const amount=n(document.getElementById("proxyAmount")?.value),units=amount/10000;el.value=Math.round(units*state.settings.proxyTransfersPer10000)}}else{el.value=0;el.disabled=true}}function setTransferGiven(kind,val,doPreview=true){state.transferGiven[kind]=!!val;const no=document.getElementById(kind+"TransferNo"),yes=document.getElementById(kind+"TransferYes");if(no&&yes){no.classList.toggle("active",!val);yes.classList.toggle("active",!!val)}if(kind==="sale"){const el=document.getElementById("saleTransfers");if(el){if(!val)el.value=0;else if(n(el.value)===0)el.value=1}}if(kind==="proxy"){updateProxyTransferInput();autoProxy(false)}save();if(doPreview)previewTx()}function onTxTypeChange(){const typeEl=document.getElementById("txType"),type=typeEl?typeEl.value:"proxy",sale=document.getElementById("saleBox"),proxy=document.getElementById("proxyBox");if(sale)sale.style.display=type==="sale"?"":"none";if(proxy)proxy.style.display=type==="proxy"?"":"none";if(type==="proxy")autoProxy();previewTx()}function autoProxy(doPreview=true){saveSettingOnly();const amount=n(document.getElementById("proxyAmount").value),units=amount/10000;document.getElementById("proxyPoints").value=Math.round(amount*(1+state.settings.proxyBonusPct/100));document.getElementById("proxyBoxes").value=Math.round(units*state.settings.proxyBoxesPer10000);const transferEl=document.getElementById("proxyTransfers");if(state.transferGiven.proxy){transferEl.disabled=false;transferEl.value=Math.round(units*state.settings.proxyTransfersPer10000)}else{transferEl.value=0;transferEl.disabled=true}document.getElementById("proxyAmountMirror").value="$ "+money(amount);if(doPreview)previewTx()}
+function getCurrentTx(){const typeEl=document.getElementById("txType"),type=typeEl?typeEl.value:"proxy",tx={id:id(),date:document.getElementById("txDate").value||today(),type,note:document.getElementById("txNote").value.trim(),amount:0,points:0,boxes:0,transfers:0,transferGiven:false};if(type==="sale"){tx.amount=n(document.getElementById("saleAmount").value);tx.points=n(document.getElementById("salePoints").value);tx.boxes=n(document.getElementById("saleBoxes").value);tx.transferGiven=state.transferGiven.sale;tx.transfers=tx.transferGiven?n(document.getElementById("saleTransfers").value):0}else{tx.amount=n(document.getElementById("proxyAmount").value);tx.points=n(document.getElementById("proxyPoints").value);tx.boxes=n(document.getElementById("proxyBoxes").value);tx.transferGiven=state.transferGiven.proxy;tx.transfers=tx.transferGiven?n(document.getElementById("proxyTransfers").value):0}return tx}
+function previewTx(){const tx=getCurrentTx(),t=totals(),afterAmount=t.sold.amount+tx.amount,afterProfit=afterAmount-t.cost,rp=t.remainPoints-tx.points,rb=t.remainBoxes-tx.boxes,rt=t.remainTransfers-tx.transfers,rate=n(document.getElementById("pointRate").value),pointSuggest=rate?tx.points/rate:0;document.getElementById("saleSuggest").value="$ "+money(pointSuggest);const warnings=[];if(state.lots.length===0)warnings.push("尚未新增儲值單，總成本與庫存都是 0");if(rp<0)warnings.push("點數會超賣");if(rb<0)warnings.push("箱子會超賣");if(rt<0)warnings.push("轉移會超賣");const box=document.getElementById("txPreview");box.className="notice "+(warnings.length?"danger":(afterProfit>=0?"good":""));box.innerHTML=`本筆類型：<b>${tx.type==="proxy"?"代儲合資":"一般販售"}</b>　實收：<b>$ ${money(tx.amount)}</b>　交付：<b>${qty(tx.points)} 點 / ${qty(tx.boxes)} 箱 / ${tx.transferGiven?`給 ${qty(tx.transfers)} 次`:"不給，轉移保留"}</b><br>新增後累計收入：<b>$ ${money(afterAmount)}</b>　新增後售後利潤：<b class="${afterProfit>=0?'goodText':'badText'}">$ ${money(afterProfit)}</b><br>新增後剩餘庫存：${qty(rp)} 點 / ${qty(rb)} 箱 / ${qty(rt)} 次轉移${warnings.length?`<br><span class="badText">提醒：${warnings.join("、")}</span>`:""}`}
+function addTransaction(){previewTx();const tx=getCurrentTx();if(tx.amount<=0&&tx.points<=0&&tx.boxes<=0&&tx.transfers<=0){alert("請至少輸入一個交易內容。");return}const t=totals(),rp=t.remainPoints-tx.points,rb=t.remainBoxes-tx.boxes,rt=t.remainTransfers-tx.transfers;if((rp<0||rb<0||rt<0)&&!confirm("這筆新增後會出現超賣，仍要新增嗎？"))return;state.transactions.push(tx);save();renderAll();clearTxForm(false)}function clearTxForm(resetType=true){const typeEl=document.getElementById("txType");if(typeEl)typeEl.value="proxy";document.getElementById("txDate").value=today();document.getElementById("txNote").value="";const saleIds=["saleAmount","salePoints","saleBoxes","saleTransfers"];saleIds.forEach(x=>{const el=document.getElementById(x);if(el)el.value=x==="saleAmount"?"":0});document.getElementById("proxyAmount").value="";setTransferGiven("sale",false,false);setTransferGiven("proxy",false,false);onTxTypeChange()}function calcExchange(){const boxQty=n(document.getElementById("exchangeBoxQty")?.value),transferQty=n(document.getElementById("exchangeTransferQty")?.value);const boxPoints=boxQty*250,transferPoints=transferQty*1500;const bp=document.getElementById("exchangeBoxPoints"),tp=document.getElementById("exchangeTransferPoints");if(bp)bp.value=boxQty?qty(boxPoints):"";if(tp)tp.value=transferQty?qty(transferPoints):""}function confirmExchange(type){const t=totals();let q=0,points=0,name="";if(type==="box"){q=n(document.getElementById("exchangeBoxQty").value);points=q*250;name="儲值箱子";if(q<=0){alert("請輸入要交換的箱子數量。");return}if(q>t.remainBoxes){alert("剩餘箱子不足，無法交換。");return}}else{q=n(document.getElementById("exchangeTransferQty").value);points=q*1500;name="轉移裝備";if(q<=0){alert("請輸入要交換的轉移數量。");return}if(q>t.remainTransfers){alert("剩餘轉移不足，無法交換。");return}}if(!confirm(`確定將 ${q} 個/次 ${name} 換成 ${points.toLocaleString("zh-TW")} 點嗎？`))return;state.exchanges=state.exchanges||[];state.exchanges.push({id:id(),date:today(),type,qty:q,points});save();if(type==="box"){document.getElementById("exchangeBoxQty").value="";document.getElementById("exchangeBoxPoints").value=""}else{document.getElementById("exchangeTransferQty").value="";document.getElementById("exchangeTransferPoints").value=""}renderAll();previewTx();renderQuote();calcExchange()}function renderExchangeRecords(){const body=document.getElementById("exchangeBody");if(!body)return;const rows=(state.exchanges||[]).map((e,i)=>`<tr><td>${esc(e.date)}</td><td>${e.type==="box"?"儲值箱子":"轉移裝備"}</td><td class="num">${qty(e.qty)}</td><td class="num">${qty(e.points)}</td><td class="noPrint"><button class="smallBtn danger" onclick="deleteExchange(${i})">刪除</button></td></tr>`).join("");body.innerHTML=rows||`<tr><td colspan="5" class="mini">尚無交換紀錄。</td></tr>`}function deleteExchange(i){if(!confirm("確定刪除此交換紀錄？庫存會重新計算。"))return;(state.exchanges||[]).splice(i,1);save();renderAll();previewTx();calcExchange()}function boxCell(tx){const b=n(tx.boxes),price=n(tx.boxUnitPrice);if(b>0&&price>0)return `${qty(b)}<div class="subline">單價 $ ${money(price)}</div>`;return qty(b)}function transferCell(tx){const t=n(tx.transfers),price=n(tx.transferUnitPrice);if(t>0&&price>0)return `${qty(t)}<div class="subline">單價 $ ${money(price)}</div>`;return qty(t)}function transferStatus(tx){if(tx.type==="sale")return `<span class="slashMark">\\</span>`;return tx.transferGiven?"有給":"不給 / 保留"}function renderRecords(){const lt=inventoryTotals();let cum=0,up=0,ub=0,ut=0;const rows=state.transactions.map((tx,i)=>{cum+=n(tx.amount);up+=n(tx.points);ub+=n(tx.boxes);ut+=n(tx.transfers);const profit=cum-lt.cost,rp=lt.points-up,rb=lt.boxes-ub,rt=lt.transfers-ut;return `<tr><td>${esc(tx.date)}</td><td>${tx.type==="proxy"?"代儲":"一般"}</td><td>${esc(tx.note)}</td><td class="num">$ ${money(tx.amount)}</td><td class="num">${qty(tx.points)}</td><td class="num">${boxCell(tx)}</td><td class="num">${transferCell(tx)}</td><td>${transferStatus(tx)}</td><td class="num">$ ${money(cum)}</td><td class="num ${profit>=0?'goodText':'badText'}">$ ${money(profit)}</td><td class="num ${rp<0?'badText':''}">${qty(rp)}</td><td class="num ${rb<0?'badText':''}">${qty(rb)}</td><td class="num ${rt<0?'badText':''}">${qty(rt)}</td><td class="noPrint"><button class="smallBtn danger" onclick="deleteTx(${i})">刪除</button></td></tr>`}).join("");document.getElementById("recordsBody").innerHTML=rows||`<tr><td colspan="14" class="mini">尚無交易紀錄。</td></tr>`;document.getElementById("recordCount").textContent=`${state.transactions.length} 筆`}function deleteTx(i){if(!confirm("確定刪除這筆交易？"))return;state.transactions.splice(i,1);save();renderAll();previewTx()}function clearAllTransactions(){if(!confirm("確定清空全部交易紀錄？儲值單會保留。"))return;state.transactions=[];save();renderAll();previewTx()}function renderAll(){renderKpis();renderLots();renderExchangeRecords();renderRecords();renderDirectProxyRecords()}
+function csvCell(v){const s=String(v??"");return '"'+s.replaceAll('"','""')+'"'}function downloadText(text,fn,mime){const blob=new Blob([text],{type:mime}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=fn;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},100)}function exportCsv(){const headers=["日期","類型","備註","實收","交付點數","交付箱子","箱子單價","交付轉移","轉移單價","轉移狀態"],lines=[headers.map(csvCell).join(",")];state.transactions.forEach(tx=>lines.push([tx.date,tx.type==="proxy"?"代儲":"一般",tx.note,tx.amount,tx.points,tx.boxes,tx.boxUnitPrice||"",tx.transfers,tx.transferUnitPrice||"",tx.type==="sale"?"\\":(tx.transferGiven?"有給":"不給/保留")].map(csvCell).join(",")));downloadText("\ufeff"+lines.join("\n"),"卡貝交易紀錄.csv","text/csv;charset=utf-8")}function exportLotsCsv(){const headers=["日期","備註","匯率","人民幣","本單成本","基礎點","贈點","本單總點","箱子","轉移"],lines=[headers.map(csvCell).join(",")];state.lots.forEach(l=>lines.push([l.date,l.note,l.rate,l.rmb,lotCost(l),l.basePoints,l.bonusPoints,lotPoints(l),l.boxes,l.transfers].map(csvCell).join(",")));downloadText("\ufeff"+lines.join("\n"),"卡貝儲值單紀錄.csv","text/csv;charset=utf-8")}function exportJson(){downloadText(JSON.stringify(state,null,2),"卡貝利潤計算器_多單版備份.json","application/json;charset=utf-8")}function importJson(event){const file=event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=e=>{try{const data=JSON.parse(e.target.result);if(!Array.isArray(data.lots)||!Array.isArray(data.transactions))throw new Error("格式不符");if(!confirm("匯入後會覆蓋目前資料，確定嗎？"))return;state={...state,...data};state.settings={...state.settings,...(data.settings||{})};state.lots=data.lots||[];state.transactions=data.transactions||[];state.exchanges=Array.isArray(data.exchanges)?data.exchanges:[];state.directProxyRecords=Array.isArray(data.directProxyRecords)?data.directProxyRecords:[];state.transferGiven={...state.transferGiven,...(data.transferGiven||{})};bindSettings();save();renderAll();previewLot();autoProxy();previewTx();calcDirectProxy(false);alert("匯入完成")}catch(err){alert("匯入失敗：JSON 格式不正確。")}};reader.readAsText(file);event.target.value=""}load();
+</script></body></html>
