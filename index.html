@@ -486,7 +486,7 @@ input[type="number"]::-webkit-inner-spin-button{
   <div class="loginCard">
     <div class="loginKicker">KABEI ACCESS</div>
     <h1 class="loginTitle">輸入密碼</h1>
-    <p class="loginSub">密碼正確後，才會顯示雲端資料。</p>
+    <p class="loginSub">密碼正確後，才會顯示卡貝點數利潤計算器與雲端資料。</p>
     <input id="loginPassword" type="password" autocomplete="current-password" placeholder="請輸入密碼" onkeydown="if(event.key==='Enter')loginWithPassword()">
     <button onclick="loginWithPassword()">進入系統</button>
     <div id="loginStatus" class="loginStatus"></div>
@@ -526,7 +526,7 @@ input[type="number"]::-webkit-inner-spin-button{
 <footer class="streetFooter">
   <div class="barcodeBlock">
     <div class="barcode"></div>
-    <div class="barcodeNum">2026 06 27 KABEI SYSTEM V28</div>
+    <div class="barcodeNum">2026 06 27 KABEI SYSTEM V30</div>
   </div>
   <div class="wave" aria-hidden="true">
     <span></span><span></span><span></span><span></span><span></span><span></span>
@@ -619,12 +619,68 @@ function submitHiddenLoginForm(password){
 }
 
 function loginWithPassword(){
-  if(!cloudConfigured()){setLoginStatus("尚未設定 CLOUD_API_URL。請先貼上 Apps Script Web App URL。","bad");return;}
+  if(!cloudConfigured()){
+    setLoginStatus("尚未設定 CLOUD_API_URL。請先貼上 Apps Script Web App URL。","bad");
+    return;
+  }
+
   const el=document.getElementById("loginPassword");
   const password=(el&&el.value||"").trim();
-  if(!password){setLoginStatus("請先輸入密碼。","bad");return;}
+
+  if(!password){
+    setLoginStatus("請先輸入密碼。","bad");
+    return;
+  }
+
   setLoginStatus("正在驗證密碼...","");
-  submitHiddenLoginForm(password);
+
+  const cb="kabeiLoginCallback_"+Date.now()+"_"+Math.random().toString(16).slice(2);
+  const script=document.createElement("script");
+  let finished=false;
+
+  const timer=setTimeout(function(){
+    if(finished)return;
+    finished=true;
+    setLoginStatus("登入逾時：請確認 Apps Script 已重新部署『新版本』，且 HTML 的 CLOUD_API_URL 是最新 /exec 網址。","bad");
+    try{delete window[cb];script.remove()}catch(e){}
+  },12000);
+
+  window[cb]=function(res){
+    if(finished)return;
+    finished=true;
+    clearTimeout(timer);
+
+    try{
+      if(res&&res.status==="ok"){
+        setLoginStatus("登入成功，正在載入資料...","good");
+        unlockPasswordGate(res.sessionToken||"");
+      }else{
+        setLoginStatus((res&&res.message)||"密碼錯誤。","bad");
+        const p=document.getElementById("loginPassword");
+        if(p){p.select();p.focus();}
+      }
+    }catch(err){
+      setLoginStatus("登入失敗："+(err.message||err),"bad");
+    }finally{
+      try{delete window[cb];script.remove()}catch(e){}
+    }
+  };
+
+  script.onerror=function(){
+    if(finished)return;
+    finished=true;
+    clearTimeout(timer);
+    setLoginStatus("登入失敗：Web App URL 錯誤、部署權限不足，或 Apps Script 尚未重新部署。","bad");
+    try{delete window[cb];script.remove()}catch(e){}
+  };
+
+  script.src=CLOUD_API_URL+
+    "?action=login"+
+    "&password="+encodeURIComponent(password)+
+    "&callback="+encodeURIComponent(cb)+
+    "&_="+Date.now();
+
+  document.body.appendChild(script);
 }
 
 window.addEventListener("message",function(event){
