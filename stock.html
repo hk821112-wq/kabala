@@ -3,7 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>卡巴拉島｜下灘即時庫存</title>
+
+<meta name="description" content="即時顯示目前可售庫存。頁面會自動同步資料，可以看到目前庫存。">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="卡巴拉島｜下灘即時庫存">
+<meta property="og:description" content="即時顯示目前可售庫存。頁面會自動同步資料，可以看到目前庫存。">
+<meta property="og:url" content="https://hk821112-wq.github.io/kabala/stock.html">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="卡巴拉島｜下灘即時庫存">
+<meta name="twitter:description" content="即時顯示目前可售庫存。頁面會自動同步資料，可以看到目前庫存。">
 
 <style>
 :root{
@@ -23,7 +35,9 @@
   --shadow:0 24px 70px rgba(0,0,0,.55);
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 html,body{
   margin:0;
@@ -40,7 +54,6 @@ body{
   overflow-x:hidden;
 }
 
-/* 背景細線 */
 body::before{
   content:"";
   position:fixed;
@@ -90,6 +103,18 @@ body::before{
   box-shadow:0 0 18px rgba(54,232,154,.95);
   display:inline-block;
   margin-right:8px;
+  animation:livePulse 1.2s ease-in-out infinite;
+}
+
+@keyframes livePulse{
+  0%,100%{
+    opacity:1;
+    transform:scale(1);
+  }
+  50%{
+    opacity:.45;
+    transform:scale(.75);
+  }
 }
 
 /* 主版面 */
@@ -318,7 +343,7 @@ h1{
   text-shadow:
     0 0 18px rgba(255,255,255,.18),
     0 0 36px rgba(255,255,255,.08);
-  animation: stockValuePulse 1s ease-in-out infinite;
+  animation:stockValuePulse 1s ease-in-out infinite;
 }
 
 @keyframes stockValuePulse{
@@ -345,6 +370,7 @@ h1{
       0 0 22px rgba(255,255,255,.28),
       0 0 42px rgba(255,255,255,.12);
   }
+}
 
 .stock-card:nth-child(1) .stock-value{
   animation-delay:0s;
@@ -356,7 +382,6 @@ h1{
 
 .stock-card:nth-child(3) .stock-value{
   animation-delay:.36s;
-}
 }
 
 .stock-card.green::before{
@@ -462,8 +487,14 @@ button:active{
 .wave-bar:nth-child(8){height:28px;animation-delay:.62s}
 
 @keyframes pulse{
-  from{transform:scaleY(.55);background:#555}
-  to{transform:scaleY(1.35);background:#9a9a9a}
+  from{
+    transform:scaleY(.55);
+    background:#555;
+  }
+  to{
+    transform:scaleY(1.35);
+    background:#9a9a9a;
+  }
 }
 
 /* 底部 */
@@ -525,129 +556,264 @@ button:active{
   letter-spacing:1px;
 }
 
-/* 手機 */
+/* =========================
+   手機專用版面
+   860px 以下自動切換
+========================= */
 @media(max-width:860px){
+
+  body{
+    background:
+      radial-gradient(circle at 50% -10%, rgba(139,0,0,.35), transparent 36%),
+      linear-gradient(180deg,#080808 0%,#111 52%,#070707 100%);
+  }
+
+  body::before{
+    background-size:34px 34px;
+    opacity:.65;
+  }
+
   .page{
-    padding:14px;
+    padding:12px;
+    min-height:100vh;
   }
 
   .topbar{
-    padding:13px 6px;
-    gap:10px;
+    padding:12px 4px;
     font-size:10px;
-    letter-spacing:2px;
+    letter-spacing:1.5px;
+    gap:10px;
+  }
+
+  .topbar .line{
+    margin:0 4px;
   }
 
   .stage{
-    grid-template-columns:1fr;
-    gap:18px;
-    padding:24px 0 18px;
+    display:block;
+    padding:18px 0 14px;
   }
 
   .hero{
     min-height:auto;
-    padding:8px 0 8px 18px;
+    border-left:0;
+    padding:0;
+    margin-bottom:14px;
   }
 
-  h1{
-    font-size:34px;
-  }
-
-  .hero-title-small{
-    font-size:18px;
-    letter-spacing:4px;
-  }
-
-  .manifesto{
-    margin-top:18px;
-    font-size:12px;
-    line-height:1.8;
-  }
-
-  .hero-label{
-    margin-top:18px;
-  }
-
+  .kicker,
+  .manifesto,
+  .hero-label,
   .side-words{
     display:none;
   }
 
+  h1{
+    font-size:26px;
+    line-height:1.15;
+    letter-spacing:1px;
+    padding:16px 16px 14px;
+    border:1px solid var(--line);
+    background:
+      linear-gradient(90deg,rgba(139,0,0,.26),rgba(255,255,255,.035)),
+      #121212;
+  }
+
+  .hero-title-small{
+    display:block;
+    margin-top:8px;
+    font-size:13px;
+    letter-spacing:3px;
+    color:#aaa;
+  }
+
   .dashboard{
     min-height:auto;
+    border:1px solid var(--line);
+    box-shadow:0 18px 42px rgba(0,0,0,.45);
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)),
+      #111;
+  }
+
+  .dashboard::before{
+    inset:10px;
+    border-color:rgba(255,255,255,.06);
+  }
+
+  .dashboard::after{
+    width:150px;
+    height:150px;
+    right:-70px;
+    top:-70px;
   }
 
   .dash-head{
-    padding:22px 18px 16px;
-    flex-direction:column;
+    padding:16px 16px 12px;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+  }
+
+  .dash-title{
+    font-size:18px;
+    letter-spacing:1px;
+    margin-bottom:4px;
+  }
+
+  .dash-sub{
+    font-size:11px;
+    line-height:1.5;
+    letter-spacing:.5px;
+  }
+
+  .badge{
+    font-size:10px;
+    padding:6px 8px;
+    letter-spacing:2px;
   }
 
   .stock-grid{
-    padding:18px;
+    padding:14px;
+    gap:12px;
   }
 
   .stock-card{
-    grid-template-columns:1fr;
-    min-height:116px;
-    padding:18px;
+    min-height:106px;
+    padding:16px 16px 14px;
+    grid-template-columns:1fr auto;
+    gap:10px;
+    border-color:rgba(255,255,255,.16);
+  }
+
+  .stock-card::before{
+    width:4px;
+  }
+
+  .stock-card::after{
+    width:90px;
+    right:12px;
+    bottom:10px;
+  }
+
+  .stock-name{
+    font-size:15px;
+    margin-bottom:8px;
+    letter-spacing:.5px;
+  }
+
+  .stock-meta{
+    font-size:10px;
+    letter-spacing:2px;
   }
 
   .stock-value{
-    min-width:0;
-    text-align:left;
-    font-size:44px;
+    min-width:90px;
+    text-align:right;
+    font-size:36px;
+    letter-spacing:.5px;
   }
 
   .status{
-    margin:0 18px 18px;
+    margin:0 14px 14px;
+    padding:13px 14px;
+    font-size:13px;
+    line-height:1.7;
   }
 
   .control-row{
-    margin:0 18px 22px;
-    align-items:stretch;
-    flex-direction:column;
+    margin:0 14px 16px;
+    display:block;
+  }
+
+  .audio-wave{
+    display:none;
   }
 
   button{
     width:100%;
+    padding:14px 16px;
+    font-size:15px;
+    letter-spacing:2px;
   }
 
   .refresh-note{
-    text-align:left;
+    margin-top:8px;
+    text-align:center;
+    font-size:11px;
+    color:#888;
   }
 
   .footer{
-    padding-top:14px;
+    padding:12px 4px 0;
   }
 
   .barcode{
-    width:135px;
+    width:118px;
+    height:30px;
+    opacity:.55;
+  }
+
+  .barcode-num{
+    font-size:9px;
+    letter-spacing:1px;
   }
 
   .advisory{
-    transform:scale(.86);
+    transform:scale(.72);
     transform-origin:right bottom;
+    opacity:.78;
   }
 }
 
+/* 小手機再壓縮 */
 @media(max-width:430px){
+
   .topbar{
     letter-spacing:1px;
   }
 
+  .topbar div:first-child{
+    white-space:nowrap;
+  }
+
   h1{
-    font-size:30px;
+    font-size:24px;
+  }
+
+  .hero-title-small{
+    font-size:12px;
+    letter-spacing:2px;
   }
 
   .dash-title{
-    font-size:19px;
+    font-size:17px;
+  }
+
+  .dash-sub{
+    font-size:10px;
+  }
+
+  .stock-card{
+    min-height:100px;
+    padding:15px 14px 13px;
   }
 
   .stock-name{
-    font-size:16px;
+    font-size:15px;
+  }
+
+  .stock-meta{
+    font-size:9px;
   }
 
   .stock-value{
-    font-size:40px;
+    min-width:82px;
+    font-size:34px;
+  }
+
+  .status{
+    font-size:12px;
   }
 }
 </style>
@@ -739,7 +905,7 @@ button:active{
         </div>
 
         <div>
-          <button onclick="loadStock()">重新整理</button>
+          <button onclick="loadStock()">更新庫存</button>
           <div class="refresh-note">頁面每 60 秒自動更新一次</div>
         </div>
       </div>
@@ -776,6 +942,24 @@ function esc(s){
   });
 }
 
+function formatTaiwanTime(value){
+  if(!value) return "未提供";
+
+  const d = new Date(value);
+  if(isNaN(d.getTime())) return value;
+
+  return d.toLocaleString("zh-TW", {
+    timeZone:"Asia/Taipei",
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit",
+    hour:"2-digit",
+    minute:"2-digit",
+    second:"2-digit",
+    hour12:false
+  });
+}
+
 function setStatus(msg, bad=false){
   const el = document.getElementById("status");
   el.className = "status" + (bad ? " bad" : "");
@@ -801,7 +985,7 @@ function loadStock(){
       document.getElementById("boxes").textContent = fmt(res.boxes);
       document.getElementById("transfers").textContent = fmt(res.transfers);
 
-      setStatus("庫存已更新<br>最後同步時間：" + esc(res.updatedAt || "未提供"));
+      setStatus("庫存已更新<br>最後同步時間：" + esc(formatTaiwanTime(res.updatedAt)));
     }catch(err){
       setStatus("讀取失敗：" + esc(err.message || err), true);
     }finally{
