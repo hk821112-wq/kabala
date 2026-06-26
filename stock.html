@@ -3,92 +3,764 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>卡巴拉島-下灘  即時庫存</title>
+<title>卡巴拉島｜下灘即時庫存</title>
+
 <style>
+:root{
+  --bg:#090909;
+  --bg2:#121212;
+  --panel:#151515;
+  --panel2:#1b1b1b;
+  --line:#3b3b3b;
+  --line-soft:rgba(255,255,255,.12);
+  --text:#f2f2f2;
+  --muted:#8d8d8d;
+  --muted2:#b8b8b8;
+  --red:#8b0000;
+  --red2:#c4161c;
+  --green:#36e89a;
+  --blue:#9cc8e8;
+  --shadow:0 24px 70px rgba(0,0,0,.55);
+}
+
 *{box-sizing:border-box}
-body{
+
+html,body{
   margin:0;
-  min-height:100vh;
+  min-height:100%;
+}
+
+body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;
   background:
-    radial-gradient(circle at 12% 0%, rgba(54,232,154,.12), transparent 28%),
-    radial-gradient(circle at 88% 12%, rgba(139,31,31,.18), transparent 26%),
-    linear-gradient(180deg,#090d12 0%,#0f141c 48%,#080b10 100%);
-  color:#edf2f7;
+    radial-gradient(circle at 12% 10%, rgba(139,0,0,.28), transparent 28%),
+    radial-gradient(circle at 88% 88%, rgba(54,232,154,.09), transparent 26%),
+    linear-gradient(180deg,#080808 0%,#111 52%,#070707 100%);
+  color:var(--text);
+  overflow-x:hidden;
 }
-.wrap{max-width:980px;margin:0 auto;padding:34px 18px}
-.header{border-bottom:1px solid rgba(126,240,182,.28);padding-bottom:18px;margin-bottom:22px}
-h1{margin:0 0 8px;font-size:30px;letter-spacing:1px}
-.sub{color:#9aa8ba;font-size:15px;line-height:1.7}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.card{
-  background:linear-gradient(180deg,#172130,#111923);
-  border:1px solid rgba(126,240,182,.22);
-  border-radius:20px;
-  padding:22px 20px;
-  min-height:130px;
-  box-shadow:0 18px 38px rgba(0,0,0,.36);
+
+/* 背景細線 */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size:44px 44px;
+  mask-image:linear-gradient(180deg,rgba(0,0,0,.8),rgba(0,0,0,.2));
 }
-.name{color:#9cc8e8;font-size:18px;margin-bottom:14px;font-weight:800}
-.value{font-size:38px;line-height:1;font-weight:1000;letter-spacing:.5px;color:#fff}
-.status{
-  margin-top:22px;
-  padding:14px 16px;
-  border-left:5px solid #38c788;
-  background:#1d2634;
-  color:#d8e0ea;
-  border-radius:12px;
+
+.page{
+  width:min(1180px,100%);
+  margin:0 auto;
+  padding:18px;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+}
+
+/* 頂部 */
+.topbar{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:16px 14px;
+  border-bottom:1px solid var(--line);
+  color:#8f8f8f;
+  letter-spacing:3px;
+  font-size:12px;
+  text-transform:uppercase;
+}
+
+.topbar .line{
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,var(--line),rgba(139,0,0,.9),var(--line));
+}
+
+.live-dot{
+  width:8px;
+  height:8px;
+  border-radius:999px;
+  background:var(--green);
+  box-shadow:0 0 18px rgba(54,232,154,.95);
+  display:inline-block;
+  margin-right:8px;
+}
+
+/* 主版面 */
+.stage{
+  flex:1;
+  display:grid;
+  grid-template-columns:360px 1fr;
+  gap:28px;
+  align-items:stretch;
+  padding:34px 0 24px;
+}
+
+/* 左側品牌區 */
+.hero{
+  border-left:4px solid var(--red);
+  padding:8px 0 8px 22px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:520px;
+  position:relative;
+}
+
+.kicker{
+  color:var(--red2);
+  font-weight:900;
+  font-size:13px;
+  letter-spacing:5px;
+  margin-bottom:18px;
+  text-transform:uppercase;
+}
+
+h1{
+  margin:0;
+  font-size:50px;
+  line-height:1.02;
+  letter-spacing:2px;
+  font-weight:1000;
+}
+
+.hero-title-small{
+  display:block;
+  color:#d7d7d7;
+  font-size:26px;
+  margin-top:10px;
+  letter-spacing:6px;
+}
+
+.manifesto{
+  margin-top:30px;
+  color:#b0b0b0;
+  line-height:2;
+  font-size:14px;
+  letter-spacing:2px;
+}
+
+.hero-label{
+  margin-top:34px;
+  display:inline-flex;
+  width:max-content;
+  border:1px solid var(--line);
+  padding:10px 14px;
+  color:#e6e6e6;
+  font-weight:900;
+  letter-spacing:3px;
+  background:rgba(255,255,255,.025);
+}
+
+.side-words{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  color:#6d6d6d;
+  font-weight:900;
+  letter-spacing:6px;
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  border-right:2px solid var(--line);
+  padding-right:12px;
+}
+
+/* 右側庫存區 */
+.dashboard{
+  position:relative;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.015)),
+    var(--panel);
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+  min-height:520px;
+  overflow:hidden;
+}
+
+.dashboard::before,
+.dashboard::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+}
+
+.dashboard::before{
+  inset:18px;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.dashboard::after{
+  width:220px;
+  height:220px;
+  right:-80px;
+  top:-80px;
+  border:1px solid rgba(139,0,0,.55);
+  transform:rotate(35deg);
+}
+
+.dash-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:18px;
+  padding:26px 28px 18px;
+  border-bottom:1px solid var(--line);
+  position:relative;
+  z-index:1;
+}
+
+.dash-head-left{
+  min-width:0;
+}
+
+.dash-title{
+  font-size:22px;
+  font-weight:1000;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
+
+.dash-sub{
+  color:var(--muted);
+  font-size:13px;
+  letter-spacing:1px;
   line-height:1.7;
 }
-.bad{border-left-color:#e0524d;background:#351d22;color:#ffd7d7}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+.badge{
+  flex:0 0 auto;
+  border:1px solid var(--red);
+  color:#fff;
+  background:rgba(139,0,0,.18);
+  padding:8px 10px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:3px;
+}
+
+.stock-grid{
+  padding:28px;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+  position:relative;
+  z-index:1;
+}
+
+.stock-card{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:14px;
+  align-items:center;
+  min-height:118px;
+  padding:20px 22px;
+  background:
+    linear-gradient(90deg,rgba(139,0,0,.16),transparent 38%),
+    linear-gradient(180deg,#1a1a1a,#111);
+  border:1px solid var(--line);
+  position:relative;
+  overflow:hidden;
+}
+
+.stock-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:5px;
+  height:100%;
+  background:var(--red);
+}
+
+.stock-card::after{
+  content:"";
+  position:absolute;
+  right:16px;
+  bottom:14px;
+  width:120px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--line),transparent);
+}
+
+.stock-name{
+  font-size:18px;
+  font-weight:1000;
+  letter-spacing:1px;
+  color:#f4f4f4;
+  margin-bottom:10px;
+}
+
+.stock-meta{
+  color:#777;
+  font-size:12px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+.stock-value{
+  min-width:150px;
+  text-align:right;
+  font-size:46px;
+  line-height:1;
+  font-weight:1000;
+  letter-spacing:1px;
+  color:#fff;
+  text-shadow:
+    0 0 18px rgba(255,255,255,.18),
+    0 0 36px rgba(255,255,255,.08);
+  animation: stockValuePulse 1s ease-in-out infinite;
+}
+
+@keyframes stockValuePulse{
+  0%{
+    opacity:1;
+    transform:scale(1);
+    text-shadow:
+      0 0 18px rgba(255,255,255,.18),
+      0 0 36px rgba(255,255,255,.08);
+  }
+
+  50%{
+    opacity:.58;
+    transform:scale(.985);
+    text-shadow:
+      0 0 6px rgba(255,255,255,.08),
+      0 0 14px rgba(255,255,255,.04);
+  }
+
+  100%{
+    opacity:1;
+    transform:scale(1);
+    text-shadow:
+      0 0 22px rgba(255,255,255,.28),
+      0 0 42px rgba(255,255,255,.12);
+  }
+
+.stock-card:nth-child(1) .stock-value{
+  animation-delay:0s;
+}
+
+.stock-card:nth-child(2) .stock-value{
+  animation-delay:.18s;
+}
+
+.stock-card:nth-child(3) .stock-value{
+  animation-delay:.36s;
+}
+}
+
+.stock-card.green::before{
+  background:var(--green);
+}
+
+.stock-card.green{
+  background:
+    linear-gradient(90deg,rgba(54,232,154,.12),transparent 40%),
+    linear-gradient(180deg,#1a1a1a,#111);
+}
+
+.stock-card.blue::before{
+  background:var(--blue);
+}
+
+.stock-card.blue{
+  background:
+    linear-gradient(90deg,rgba(156,200,232,.12),transparent 40%),
+    linear-gradient(180deg,#1a1a1a,#111);
+}
+
+/* 狀態區 */
+.status{
+  margin:0 28px 24px;
+  padding:16px 18px;
+  border:1px solid rgba(54,232,154,.35);
+  border-left:5px solid var(--green);
+  background:rgba(54,232,154,.07);
+  color:#dceee6;
+  line-height:1.8;
+  font-size:14px;
+  position:relative;
+  z-index:1;
+}
+
+.status.bad{
+  border-color:rgba(196,22,28,.5);
+  border-left-color:var(--red2);
+  background:rgba(139,0,0,.18);
+  color:#ffd6d6;
+}
+
+/* 操作列 */
+.control-row{
+  margin:0 28px 28px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:16px;
+  position:relative;
+  z-index:1;
+}
+
 button{
-  border:0;
-  border-radius:12px;
-  padding:12px 16px;
-  background:linear-gradient(180deg,#2fcf87,#1f9f67);
+  border:1px solid var(--red);
+  background:
+    linear-gradient(180deg,rgba(196,22,28,.95),rgba(95,0,0,.95));
   color:#fff;
   cursor:pointer;
-  font-size:16px;
-  font-weight:900;
+  padding:13px 18px;
+  font-size:15px;
+  font-weight:1000;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  box-shadow:0 12px 28px rgba(139,0,0,.24);
 }
-.note{margin-top:18px;color:#8493a6;font-size:13px;line-height:1.7}
-@media(max-width:760px){
-  .grid{grid-template-columns:1fr}
-  h1{font-size:25px}
-  .value{font-size:34px}
+
+button:active{
+  transform:translateY(1px);
+}
+
+.refresh-note{
+  color:#7f7f7f;
+  font-size:12px;
+  line-height:1.7;
+  letter-spacing:1px;
+  text-align:right;
+}
+
+/* 音波 */
+.audio-wave{
+  display:flex;
+  align-items:flex-end;
+  gap:4px;
+  height:34px;
+  opacity:.72;
+}
+
+.wave-bar{
+  width:3px;
+  background:var(--line);
+  animation:pulse 1.4s ease-in-out infinite alternate;
+}
+
+.wave-bar:nth-child(1){height:10px;animation-delay:.1s}
+.wave-bar:nth-child(2){height:24px;animation-delay:.35s}
+.wave-bar:nth-child(3){height:15px;animation-delay:.2s}
+.wave-bar:nth-child(4){height:31px;animation-delay:.55s}
+.wave-bar:nth-child(5){height:8px;animation-delay:.28s}
+.wave-bar:nth-child(6){height:22px;animation-delay:.42s}
+.wave-bar:nth-child(7){height:13px;animation-delay:.18s}
+.wave-bar:nth-child(8){height:28px;animation-delay:.62s}
+
+@keyframes pulse{
+  from{transform:scaleY(.55);background:#555}
+  to{transform:scaleY(1.35);background:#9a9a9a}
+}
+
+/* 底部 */
+.footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:20px;
+  padding:18px 14px 4px;
+  border-top:1px solid var(--line);
+}
+
+.barcode-wrap{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.barcode{
+  width:170px;
+  height:42px;
+  background:repeating-linear-gradient(
+    90deg,
+    #ededed,
+    #ededed 2px,
+    transparent 2px,
+    transparent 6px,
+    #ededed 6px,
+    #ededed 7px,
+    transparent 7px,
+    transparent 11px
+  );
+  opacity:.82;
+}
+
+.barcode-num{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color:#888;
+  font-size:11px;
+  letter-spacing:2px;
+}
+
+.advisory{
+  border:3px solid #ededed;
+  padding:7px 12px;
+  line-height:1;
+  text-align:center;
+  font-weight:1000;
+  background:rgba(255,255,255,.03);
+}
+
+.advisory .small{
+  font-size:8px;
+  letter-spacing:1px;
+}
+
+.advisory .large{
+  font-size:18px;
+  letter-spacing:1px;
+}
+
+/* 手機 */
+@media(max-width:860px){
+  .page{
+    padding:14px;
+  }
+
+  .topbar{
+    padding:13px 6px;
+    gap:10px;
+    font-size:10px;
+    letter-spacing:2px;
+  }
+
+  .stage{
+    grid-template-columns:1fr;
+    gap:18px;
+    padding:24px 0 18px;
+  }
+
+  .hero{
+    min-height:auto;
+    padding:8px 0 8px 18px;
+  }
+
+  h1{
+    font-size:34px;
+  }
+
+  .hero-title-small{
+    font-size:18px;
+    letter-spacing:4px;
+  }
+
+  .manifesto{
+    margin-top:18px;
+    font-size:12px;
+    line-height:1.8;
+  }
+
+  .hero-label{
+    margin-top:18px;
+  }
+
+  .side-words{
+    display:none;
+  }
+
+  .dashboard{
+    min-height:auto;
+  }
+
+  .dash-head{
+    padding:22px 18px 16px;
+    flex-direction:column;
+  }
+
+  .stock-grid{
+    padding:18px;
+  }
+
+  .stock-card{
+    grid-template-columns:1fr;
+    min-height:116px;
+    padding:18px;
+  }
+
+  .stock-value{
+    min-width:0;
+    text-align:left;
+    font-size:44px;
+  }
+
+  .status{
+    margin:0 18px 18px;
+  }
+
+  .control-row{
+    margin:0 18px 22px;
+    align-items:stretch;
+    flex-direction:column;
+  }
+
+  button{
+    width:100%;
+  }
+
+  .refresh-note{
+    text-align:left;
+  }
+
+  .footer{
+    padding-top:14px;
+  }
+
+  .barcode{
+    width:135px;
+  }
+
+  .advisory{
+    transform:scale(.86);
+    transform-origin:right bottom;
+  }
+}
+
+@media(max-width:430px){
+  .topbar{
+    letter-spacing:1px;
+  }
+
+  h1{
+    font-size:30px;
+  }
+
+  .dash-title{
+    font-size:19px;
+  }
+
+  .stock-name{
+    font-size:16px;
+  }
+
+  .stock-value{
+    font-size:40px;
+  }
 }
 </style>
 </head>
+
 <body>
-<div class="wrap">
-  <div class="header">
-    <h1>卡巴拉島下灘 點數\箱子\轉移 即時庫存</h1>
-    <div class="sub">即時顯示目前可售庫存。</div>
-  </div>
+<div class="page">
 
-  <div class="grid">
-    <div class="card">
-      <div class="name">剩餘卡貝點數</div>
-      <div class="value" id="points">--</div>
+  <header class="topbar">
+    <div><span class="live-dot"></span>LIVE STOCK</div>
+    <div class="line"></div>
+    <div>KABALA ISLAND</div>
+  </header>
+
+  <main class="stage">
+
+    <section class="hero">
+      <div class="kicker">REAL TIME INVENTORY</div>
+
+      <h1>
+        卡巴拉島<br>
+        下灘庫存
+        <span class="hero-title-small">點數｜箱子｜轉移</span>
+      </h1>
+
+      <div class="manifesto">
+        即時顯示目前可售庫存。<br>
+        頁面會自動同步資料，<br>
+        可以看到目前庫存。
+      </div>
+
+      <div class="hero-label">OPEN TO SELL</div>
+
+      <div class="side-words">
+        <div>POINTS</div>
+        <div>BOX</div>
+        <div>TRANSFER</div>
+      </div>
+    </section>
+
+    <section class="dashboard">
+
+      <div class="dash-head">
+        <div class="dash-head-left">
+          <div class="dash-title">庫存同步面板</div>
+          <div class="dash-sub">資料來源：資料庫同步後端 / Apps Script</div>
+        </div>
+        <div class="badge">ONLINE</div>
+      </div>
+
+      <div class="stock-grid">
+        <div class="stock-card green">
+          <div>
+            <div class="stock-name">剩餘卡貝點數</div>
+            <div class="stock-meta">KABALA POINTS</div>
+          </div>
+          <div class="stock-value" id="points">--</div>
+        </div>
+
+        <div class="stock-card">
+          <div>
+            <div class="stock-name">剩餘活動儲值箱子</div>
+            <div class="stock-meta">EVENT BOXES</div>
+          </div>
+          <div class="stock-value" id="boxes">--</div>
+        </div>
+
+        <div class="stock-card blue">
+          <div>
+            <div class="stock-name">剩餘轉移裝備次數</div>
+            <div class="stock-meta">TRANSFER COUNT</div>
+          </div>
+          <div class="stock-value" id="transfers">--</div>
+        </div>
+      </div>
+
+      <div id="status" class="status">正在讀取庫存...</div>
+
+      <div class="control-row">
+        <div class="audio-wave" aria-hidden="true">
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+          <div class="wave-bar"></div>
+        </div>
+
+        <div>
+          <button onclick="loadStock()">重新整理</button>
+          <div class="refresh-note">頁面每 60 秒自動更新一次</div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="barcode-wrap">
+      <div class="barcode"></div>
+      <div class="barcode-num">KABALA  STOCK  2026</div>
     </div>
-    <div class="card">
-      <div class="name">剩餘活動儲值箱子</div>
-      <div class="value" id="boxes">--</div>
+
+    <div class="advisory">
+      <div class="small">REAL TIME</div>
+      <div class="large">STOCK</div>
+      <div class="small">PUBLIC VIEW</div>
     </div>
-    <div class="card">
-      <div class="name">剩餘轉移裝備次數</div>
-      <div class="value" id="transfers">--</div>
-    </div>
-  </div>
+  </footer>
 
-  <div id="status" class="status">正在讀取庫存...</div>
-
-  <div class="actions">
-    <button onclick="loadStock()">重新整理</button>
-  </div>
-
-  <div class="note">頁面會每 60 秒自動更新一次。</div>
 </div>
 
 <script>
