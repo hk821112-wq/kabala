@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>卡貝系統｜登入</title>
+<title>卡貝點數利潤計算器｜v27 自動雲端同步</title>
 <style>
 :root{--bg:#f6f2ea;--panel:#fffaf2;--panel2:#fff;--ink:#21170f;--muted:#7a6a59;--line:#e5d6c4;--accent:#9a663a;--accent2:#d99b5d;--danger:#b8322b;--good:#147a45;--warn:#a66a00;--shadow:0 10px 24px rgba(70,45,20,.10);--radius:18px}*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;background:linear-gradient(180deg,#fbf8f2 0%,var(--bg) 100%);color:var(--ink)}header{max-width:1240px;margin:auto;padding:26px 20px 8px}h1{margin:0 0 8px;font-size:30px;letter-spacing:.04em}.subtitle{color:var(--muted);font-size:14px;line-height:1.7}.container{max-width:1240px;margin:auto;padding:12px 20px 34px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}.card.white{background:var(--panel2)}.card.full{grid-column:1/-1}h2{font-size:18px;margin:0 0 14px}.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.row4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}label{display:block;color:var(--muted);font-size:13px;margin:9px 0 5px}input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font-size:15px;outline:none}input:focus,select:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(217,155,93,.20)}button{border:0;border-radius:12px;padding:11px 14px;background:var(--accent);color:#fff;cursor:pointer;font-weight:800;font-size:14px}button.secondary{background:#efe3d3;color:var(--ink);border:1px solid var(--line)}button.danger{background:var(--danger)}button:active{transform:translateY(1px)}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}.kpi .name{font-size:12px;color:var(--muted);margin-bottom:7px}.kpi .value{font-size:20px;font-weight:900;letter-spacing:.02em}.kpi.good .value{color:var(--good)}.kpi.bad .value{color:var(--danger)}.kpi.warn .value{color:var(--warn)}.notice{border-left:4px solid var(--accent2);padding:10px 12px;background:#fff7ea;color:#5c432b;border-radius:10px;font-size:14px;line-height:1.65;margin-top:12px}.notice.good{border-color:var(--good);background:#eefaf3;color:#184d33}.notice.danger{border-color:var(--danger);background:#fff1ef;color:#6a211b}.mini{font-size:12px;color:var(--muted);line-height:1.7}.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#efe3d3;color:#4a3826;font-size:12px;margin-left:6px}.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:16px;background:#fff}table{width:100%;min-width:1060px;border-collapse:collapse}th,td{border-bottom:1px solid var(--line);padding:10px 9px;text-align:left;font-size:13px;vertical-align:top}th{background:#f7efe4;color:#5b442e;position:sticky;top:0;z-index:1}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}tr:hover td{background:#fffaf4}.goodText{color:var(--good);font-weight:900}.badText{color:var(--danger);font-weight:900}.toggle{display:flex;gap:8px}.toggle button{flex:1;background:#efe3d3;color:#4a3826;border:1px solid var(--line)}.toggle button.active{background:var(--accent);color:#fff}.smallBtn{padding:7px 10px;font-size:12px;border-radius:10px}.card.collapsible h2{cursor:pointer;user-select:none;margin-bottom:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.card.collapsible.open h2{margin-bottom:14px}.card.collapsible h2::after{content:"點我展開";font-size:12px;font-weight:800;color:#5b442e;background:#efe3d3;border:1px solid var(--line);border-radius:999px;padding:4px 9px}.card.collapsible.open h2::after{content:"收合"}.collapse-body{display:none}.card.collapsible.open>.collapse-body{display:block}@media(max-width:960px){.grid,.row,.row3,.row4{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}@media(max-width:560px){.kpis{grid-template-columns:1fr}h1{font-size:24px}}@media print{header,.noPrint,.actions button,.card:not(.printable){display:none!important}body{background:#fff}.container{max-width:none;padding:0}.card{box-shadow:none;border:0}}
 .subline{font-size:11px;color:var(--muted);font-weight:400;margin-top:3px;line-height:1.35;white-space:nowrap}.slashMark{color:var(--muted);font-weight:700}input[disabled]{background:#f3eee7!important;color:#9b8a78!important;cursor:not-allowed}
@@ -393,107 +393,8 @@ input[type="number"]::-webkit-inner-spin-button{
   display:none !important;
 }
 
-
-
-/* v29 密碼登入鎖定畫面 */
-.loginScreen{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-  background:
-    radial-gradient(circle at 14% 8%, rgba(54,232,154,.14), transparent 28%),
-    radial-gradient(circle at 86% 16%, rgba(139,31,31,.22), transparent 30%),
-    linear-gradient(180deg,#070a0f 0%,#0f141c 48%,#070a0f 100%);
-}
-.loginCard{
-  width:min(440px,100%);
-  background:linear-gradient(180deg,rgba(29,40,55,.98),rgba(15,21,31,.98));
-  border:1px solid rgba(126,240,182,.25);
-  border-radius:24px;
-  box-shadow:0 24px 60px rgba(0,0,0,.45);
-  padding:28px;
-  position:relative;
-  overflow:hidden;
-}
-.loginCard::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:22px;
-  bottom:22px;
-  width:4px;
-  background:linear-gradient(180deg,#36e89a,#8b1f1f);
-  border-radius:999px;
-}
-.loginKicker{
-  font-size:13px !important;
-  letter-spacing:4px;
-  font-weight:900;
-  color:#7ef0b6;
-  margin-bottom:12px;
-}
-.loginTitle{
-  margin:0 0 8px;
-  color:#f5fbff !important;
-  font-size:28px !important;
-  line-height:1.25;
-}
-.loginSub{
-  margin:0 0 18px;
-  color:#9aa8ba;
-  line-height:1.7;
-  font-size:15px !important;
-}
-.loginCard input{
-  width:100%;
-  margin-bottom:12px;
-}
-.loginCard button{
-  width:100%;
-}
-.loginStatus{
-  min-height:24px;
-  margin-top:12px;
-  font-size:14px !important;
-  color:#9aa8ba;
-  line-height:1.6;
-}
-.loginStatus.bad{color:#ffd7d7 !important}
-.loginStatus.good{color:#c9f5df !important}
-.logoutBar{
-  max-width:1240px;
-  margin:0 auto;
-  padding:12px 20px 0;
-  display:flex;
-  justify-content:flex-end;
-}
-.logoutBtn{
-  width:auto !important;
-  padding:8px 12px !important;
-  font-size:13px !important;
-  border-radius:999px !important;
-  background:#253044 !important;
-  color:#e6edf5 !important;
-  border:1px solid #3a485c !important;
-  box-shadow:none !important;
-}
-
 </style></head>
 <body>
-<div id="loginScreen" class="loginScreen">
-  <div class="loginCard">
-    <div class="loginKicker">KABEI ACCESS</div>
-    <h1 class="loginTitle">輸入密碼</h1>
-    <p class="loginSub">密碼正確後，才會顯示卡貝點數利潤計算器與雲端資料。</p>
-    <input id="loginPassword" type="password" autocomplete="current-password" placeholder="請輸入密碼" onkeydown="if(event.key==='Enter')loginWithPassword()">
-    <button onclick="loginWithPassword()">進入系統</button>
-    <div id="loginStatus" class="loginStatus"></div>
-  </div>
-</div>
-<div id="appShell" style="display:none">
-  <div class="logoutBar"><button class="logoutBtn" onclick="logoutPasswordGate()">登出</button></div>
 <header class="heroHeader">
   <div class="topStrip">
     <span>REAL RECOGNIZE REAL</span>
@@ -526,7 +427,7 @@ input[type="number"]::-webkit-inner-spin-button{
 <footer class="streetFooter">
   <div class="barcodeBlock">
     <div class="barcode"></div>
-    <div class="barcodeNum">2026 06 27 KABEI SYSTEM V30</div>
+    <div class="barcodeNum">2026 06 27 KABEI SYSTEM V28</div>
   </div>
   <div class="wave" aria-hidden="true">
     <span></span><span></span><span></span><span></span><span></span><span></span>
@@ -534,167 +435,17 @@ input[type="number"]::-webkit-inner-spin-button{
   <div class="footerWords">FLOW / RATE / PROFIT / CONTROL</div>
 </footer>
 </div>
-</div>
 <script>
 const STORE_KEY="kabei_profit_multi_lot_v4";let state={settings:{pointRate:1.5,proxyBonusPct:2.04,proxyBoxesPer10000:10,proxyTransfersPer10000:1},lots:[],transactions:[],exchanges:[],directProxyRecords:[],transferGiven:{sale:false,proxy:false}};
 const CLOUD_API_URL="https://script.google.com/macros/s/AKfycby5rx43sCVazqJJb2zaawNdcBdL9dlHU2OhZSZ4TjSjPrloxrgJYzBJdRp46HM6XecTrA/exec";
+const CLOUD_TOKEN="KABEI_2026_CHANGE_ME";
 function cloudConfigured(){return CLOUD_API_URL&&CLOUD_API_URL.indexOf("script.google.com")>-1&&CLOUD_API_URL.indexOf("請貼上")===-1}
 function cloudStatus(msg,kind=""){const el=document.getElementById("cloudStatus");if(!el)return;el.className="notice "+kind;el.innerHTML=msg}
-function cloudHelp(){alert("設定方式：\n1. Google 試算表新增 Login 分頁。\n2. Login!B2 填入登入密碼。\n3. Apps Script 貼上新版 Code.gs。\n4. 部署 > 新增部署作業 > 網路應用程式。\n5. 執行身分選『我』，存取權選『任何人』。\n6. 複製 /exec 結尾的 Web App URL，貼回 HTML 的 CLOUD_API_URL。\n7. 開啟網址後，先輸入 Login!B2 的密碼才會顯示系統。");}
+function cloudHelp(){alert("設定方式：\n1. 建立 Google 試算表。\n2. 擴充功能 > Apps Script。\n3. 貼上我給你的 Code.gs。\n4. 部署 > 新增部署作業 > 網路應用程式。\n5. 執行身分選『我』，存取權選『任何人』。\n6. 複製 /exec 結尾的 Web App URL，貼回 HTML 的 CLOUD_API_URL。\n7. CLOUD_TOKEN 要和 Apps Script 裡的 API_TOKEN 一樣。");}
 let appLoaded=false;
 let cloudSaveTimer=null;
 let isApplyingCloudLoad=false;
 let lastCloudAutoLoadAt=0;
-
-let sessionToken="";
-let passwordGateUnlocked=false;
-
-function setLoginStatus(msg,kind=""){
-  const el=document.getElementById("loginStatus");
-  if(!el)return;
-  el.className="loginStatus "+kind;
-  el.textContent=msg;
-}
-
-function initPasswordGate(){
-  sessionToken="";
-  passwordGateUnlocked=false;
-  localStorage.removeItem("kabei_session_token");
-  const login=document.getElementById("loginScreen");
-  const app=document.getElementById("appShell");
-  if(login)login.style.display="flex";
-  if(app)app.style.display="none";
-  setTimeout(()=>{const p=document.getElementById("loginPassword");if(p)p.focus()},80);
-}
-
-function unlockPasswordGate(token){
-  sessionToken=token||"";
-  if(!sessionToken){setLoginStatus("登入失敗：沒有取得登入憑證。","bad");return;}
-  localStorage.setItem("kabei_session_token",sessionToken);
-  passwordGateUnlocked=true;
-  document.title="卡貝點數利潤計算器｜v27 自動雲端同步";
-  const login=document.getElementById("loginScreen");
-  const app=document.getElementById("appShell");
-  if(login)login.style.display="none";
-  if(app)app.style.display="block";
-  load();
-  appLoaded=true;
-  autoCloudLoadOnStart();
-}
-
-function logoutPasswordGate(){
-  sessionToken="";
-  passwordGateUnlocked=false;
-  appLoaded=false;
-  document.title="卡貝系統｜登入";
-  localStorage.removeItem("kabei_session_token");
-  const app=document.getElementById("appShell");
-  const login=document.getElementById("loginScreen");
-  if(app)app.style.display="none";
-  if(login)login.style.display="flex";
-  const p=document.getElementById("loginPassword");
-  if(p){p.value="";setTimeout(()=>p.focus(),50)}
-  setLoginStatus("已登出。","");
-}
-
-function submitHiddenLoginForm(password){
-  let iframe=document.getElementById("kabeiLoginFrame");
-  if(!iframe){
-    iframe=document.createElement("iframe");
-    iframe.name="kabeiLoginFrame";
-    iframe.id="kabeiLoginFrame";
-    iframe.style.display="none";
-    document.body.appendChild(iframe);
-  }
-  const form=document.createElement("form");
-  form.method="POST";
-  form.action=CLOUD_API_URL;
-  form.target="kabeiLoginFrame";
-  form.style.display="none";
-  form.appendChild(makeHiddenInput("action","login"));
-  form.appendChild(makeHiddenInput("password",password));
-  document.body.appendChild(form);
-  form.submit();
-  setTimeout(()=>{try{form.remove()}catch(e){}},1200);
-}
-
-function loginWithPassword(){
-  if(!cloudConfigured()){
-    setLoginStatus("尚未設定 CLOUD_API_URL。請先貼上 Apps Script Web App URL。","bad");
-    return;
-  }
-
-  const el=document.getElementById("loginPassword");
-  const password=(el&&el.value||"").trim();
-
-  if(!password){
-    setLoginStatus("請先輸入密碼。","bad");
-    return;
-  }
-
-  setLoginStatus("正在驗證密碼...","");
-
-  const cb="kabeiLoginCallback_"+Date.now()+"_"+Math.random().toString(16).slice(2);
-  const script=document.createElement("script");
-  let finished=false;
-
-  const timer=setTimeout(function(){
-    if(finished)return;
-    finished=true;
-    setLoginStatus("登入逾時：請確認 Apps Script 已重新部署『新版本』，且 HTML 的 CLOUD_API_URL 是最新 /exec 網址。","bad");
-    try{delete window[cb];script.remove()}catch(e){}
-  },12000);
-
-  window[cb]=function(res){
-    if(finished)return;
-    finished=true;
-    clearTimeout(timer);
-
-    try{
-      if(res&&res.status==="ok"){
-        setLoginStatus("登入成功，正在載入資料...","good");
-        unlockPasswordGate(res.sessionToken||"");
-      }else{
-        setLoginStatus((res&&res.message)||"密碼錯誤。","bad");
-        const p=document.getElementById("loginPassword");
-        if(p){p.select();p.focus();}
-      }
-    }catch(err){
-      setLoginStatus("登入失敗："+(err.message||err),"bad");
-    }finally{
-      try{delete window[cb];script.remove()}catch(e){}
-    }
-  };
-
-  script.onerror=function(){
-    if(finished)return;
-    finished=true;
-    clearTimeout(timer);
-    setLoginStatus("登入失敗：Web App URL 錯誤、部署權限不足，或 Apps Script 尚未重新部署。","bad");
-    try{delete window[cb];script.remove()}catch(e){}
-  };
-
-  script.src=CLOUD_API_URL+
-    "?action=login"+
-    "&password="+encodeURIComponent(password)+
-    "&callback="+encodeURIComponent(cb)+
-    "&_="+Date.now();
-
-  document.body.appendChild(script);
-}
-
-window.addEventListener("message",function(event){
-  const data=event.data||{};
-  if(!data||data.kabeiLogin!==true)return;
-  if(data.status==="ok"){
-    setLoginStatus("登入成功，正在載入資料...","good");
-    unlockPasswordGate(data.sessionToken||"");
-  }else{
-    setLoginStatus(data.message||"密碼錯誤。","bad");
-    const p=document.getElementById("loginPassword");
-    if(p){p.select();p.focus();}
-  }
-});
 
 function isStateEmpty(){
   return !((state.lots&&state.lots.length)||(state.transactions&&state.transactions.length)||(state.exchanges&&state.exchanges.length)||(state.directProxyRecords&&state.directProxyRecords.length));
@@ -704,7 +455,7 @@ function hasAnyData(data){
 }
 
 function queueCloudSave(){
-  if(!appLoaded||!cloudConfigured()||!sessionToken)return;
+  if(!appLoaded||!cloudConfigured())return;
   clearTimeout(cloudSaveTimer);
   cloudSaveTimer=setTimeout(function(){cloudSaveSilent(false)},900);
 }
@@ -720,10 +471,6 @@ function makeHiddenInput(name,value){
 function cloudSaveSilent(showStatus){
   if(!cloudConfigured()){
     if(showStatus)cloudStatus("尚未設定 CLOUD_API_URL。請先把 Apps Script 的 Web App URL 貼進 HTML。","danger");
-    return;
-  }
-  if(!sessionToken){
-    if(showStatus)cloudStatus("請先輸入密碼登入。","danger");
     return;
   }
   try{
@@ -742,7 +489,7 @@ function cloudSaveSilent(showStatus){
     form.target="kabeiCloudFrame";
     form.style.display="none";
     form.appendChild(makeHiddenInput("action","save"));
-    form.appendChild(makeHiddenInput("session",sessionToken));
+    form.appendChild(makeHiddenInput("token",CLOUD_TOKEN));
     form.appendChild(makeHiddenInput("data",JSON.stringify(state)));
     document.body.appendChild(form);
     form.submit();
@@ -760,7 +507,6 @@ function cloudSave(){
 
 function cloudLoad(askConfirm=true){
   if(!cloudConfigured()){cloudStatus("尚未設定 CLOUD_API_URL。請先把 Apps Script 的 Web App URL 貼進 HTML。","danger");return}
-  if(!sessionToken){cloudStatus("請先輸入密碼登入。","danger");return}
   const cb="kabeiCloudCallback_"+Date.now()+"_"+Math.random().toString(16).slice(2);
   const script=document.createElement("script");
   window[cb]=function(res){
@@ -793,16 +539,16 @@ function cloudLoad(askConfirm=true){
   };
   script.onerror=function(){cloudStatus("載入失敗：Web App URL 錯誤、部署權限不足，或 Apps Script 尚未重新部署。","danger");try{delete window[cb];script.remove()}catch(e){}};
   cloudStatus("正在讀取 Google 試算表...","");
-  script.src=CLOUD_API_URL+"?action=load&session="+encodeURIComponent(sessionToken)+"&callback="+encodeURIComponent(cb)+"&_="+Date.now();
+  script.src=CLOUD_API_URL+"?action=load&token="+encodeURIComponent(CLOUD_TOKEN)+"&callback="+encodeURIComponent(cb)+"&_="+Date.now();
   document.body.appendChild(script);
 }
 
 function autoCloudLoadOnStart(){
-  if(!cloudConfigured()||!sessionToken)return;
+  if(!cloudConfigured())return;
   setTimeout(function(){cloudLoad(false)},1000);
 }
 function autoCloudLoadOnFocus(){
-  if(!cloudConfigured()||!sessionToken)return;
+  if(!cloudConfigured())return;
   const now=Date.now();
   if(now-lastCloudAutoLoadAt<8000)return;
   lastCloudAutoLoadAt=now;
@@ -812,7 +558,7 @@ window.addEventListener("focus",autoCloudLoadOnFocus);
 document.addEventListener("visibilitychange",function(){if(!document.hidden)autoCloudLoadOnFocus()});
 
 function getDirectProxyCalc(){const rmb=n(document.getElementById("directRmb")?.value),rate=n(document.getElementById("directRate")?.value),received=n(document.getElementById("directReceived")?.value),note=(document.getElementById("directNote")?.value||"").trim(),cost=rmb*rate,profit=received-cost;return{rmb,rate,received,note,cost,profit}}function calcDirectProxy(showAlert=false){const d=getDirectProxyCalc(),profitEl=document.getElementById("directProfit");if(profitEl)profitEl.value=(d.rmb>0||d.rate>0||d.received>0)?"$ "+money(d.profit):"";if(showAlert&&(d.rmb<=0||d.rate<=0||d.received<=0))alert("請輸入人民幣、匯率、實收台幣。")}function addDirectProxyRecord(){const d=getDirectProxyCalc();calcDirectProxy(true);if(d.rmb<=0||d.rate<=0||d.received<=0)return;state.directProxyRecords=state.directProxyRecords||[];state.directProxyRecords.push({id:id(),date:today(),rmb:d.rmb,rate:d.rate,received:d.received,cost:d.cost,profit:d.profit,note:d.note});save();renderDirectProxyRecords();["directRmb","directRate","directReceived","directProfit","directNote"].forEach(id=>{const el=document.getElementById(id);if(el)el.value=""})}function renderDirectProxyRecords(){const body=document.getElementById("directProxyBody"),summary=document.getElementById("directSummary"),records=state.directProxyRecords||[];if(summary){const totalCost=records.reduce((a,r)=>a+n(r.cost),0),totalReceived=records.reduce((a,r)=>a+n(r.received),0),totalProfit=records.reduce((a,r)=>a+n(r.profit),0);summary.innerHTML=`<div class="sumBox"><div class="sumName">點數代儲筆數</div><div class="sumValue">${qty(records.length)} 筆</div></div><div class="sumBox"><div class="sumName">累計實收台幣</div><div class="sumValue">$ ${money(totalReceived)}</div></div><div class="sumBox"><div class="sumName">點數代儲總利潤</div><div class="sumValue ${totalProfit>=0?'goodText':'badText'}">$ ${money(totalProfit)}</div></div>`}if(!body)return;const rows=records.map((r,i)=>`<tr><td>${esc(r.date)}</td><td class="num">${qty(r.rmb)}</td><td class="num">${Number(r.rate||0).toFixed(2)}</td><td class="num">$ ${money(r.cost)}</td><td class="num">$ ${money(r.received)}</td><td class="num ${n(r.profit)>=0?'goodText':'badText'}">$ ${money(r.profit)}</td><td>${esc(r.note||"")}</td><td class="noPrint"><button class="smallBtn danger" onclick="deleteDirectProxyRecord(${i})">刪除</button></td></tr>`).join("");body.innerHTML=rows||`<tr><td colspan="8" class="mini">尚無點數代儲交易紀錄。</td></tr>`}function deleteDirectProxyRecord(i){if(!confirm("確定刪除此點數代儲紀錄？"))return;(state.directProxyRecords||[]).splice(i,1);save();renderDirectProxyRecords()}function toggleSection(id){const el=document.getElementById(id);if(el)el.classList.toggle("open")}function clearQuoteFields(){["quotePoints","quoteBoxPrice","quoteBoxes","quoteTransferPrice","quoteTransfers","quoteNote"].forEach(id=>{const el=document.getElementById(id);if(el)el.value=""})}function today(){const d=new Date(),z=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`}function n(v){const x=Number(v);return isFinite(x)?x:0}function money(v){return Number(v||0).toLocaleString("zh-TW",{maximumFractionDigits:0})}function qty(v){return Number(v||0).toLocaleString("zh-TW",{maximumFractionDigits:0})}function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}function save(){localStorage.setItem(STORE_KEY,JSON.stringify(state));if(!isApplyingCloudLoad)queueCloudSave()}function id(){return Date.now()+"_"+Math.random().toString(16).slice(2)}
-function load(){if(!sessionToken)return;const saved=localStorage.getItem(STORE_KEY);if(saved){try{const data=JSON.parse(saved);state={...state,...data};state.settings={...state.settings,...(data.settings||{})};state.lots=Array.isArray(data.lots)?data.lots:[];state.transactions=Array.isArray(data.transactions)?data.transactions:[];state.exchanges=Array.isArray(data.exchanges)?data.exchanges:[];state.directProxyRecords=Array.isArray(data.directProxyRecords)?data.directProxyRecords:[];state.transferGiven={...state.transferGiven,...(data.transferGiven||{})}}catch(e){}}else{state.lots=[];save()}document.getElementById("lotDate").value=today();document.getElementById("txDate").value=today();bindSettings();clearQuoteFields();setTransferGiven("sale",state.transferGiven.sale,false);setTransferGiven("proxy",state.transferGiven.proxy,false);previewLot();renderAll();renderQuote();autoProxy();previewTx();calcDirectProxy(false)}
+function load(){const saved=localStorage.getItem(STORE_KEY);if(saved){try{const data=JSON.parse(saved);state={...state,...data};state.settings={...state.settings,...(data.settings||{})};state.lots=Array.isArray(data.lots)?data.lots:[];state.transactions=Array.isArray(data.transactions)?data.transactions:[];state.exchanges=Array.isArray(data.exchanges)?data.exchanges:[];state.directProxyRecords=Array.isArray(data.directProxyRecords)?data.directProxyRecords:[];state.transferGiven={...state.transferGiven,...(data.transferGiven||{})}}catch(e){}}else{state.lots=[];save()}document.getElementById("lotDate").value=today();document.getElementById("txDate").value=today();bindSettings();clearQuoteFields();setTransferGiven("sale",state.transferGiven.sale,false);setTransferGiven("proxy",state.transferGiven.proxy,false);previewLot();renderAll();renderQuote();autoProxy();previewTx();calcDirectProxy(false)}
 function bindSettings(){document.getElementById("pointRate").value=state.settings.pointRate;document.getElementById("proxyBonusPct").value=state.settings.proxyBonusPct;document.getElementById("proxyBoxesPer10000").value=state.settings.proxyBoxesPer10000;document.getElementById("proxyTransfersPer10000").value=state.settings.proxyTransfersPer10000}function saveSettingOnly(){state.settings.pointRate=n(document.getElementById("pointRate").value);state.settings.proxyBonusPct=n(document.getElementById("proxyBonusPct").value);state.settings.proxyBoxesPer10000=n(document.getElementById("proxyBoxesPer10000").value);state.settings.proxyTransfersPer10000=n(document.getElementById("proxyTransfersPer10000").value);save();renderAll()}
 function getLotFromInput(){return{id:id(),date:document.getElementById("lotDate").value||today(),note:document.getElementById("lotNote").value.trim(),rate:n(document.getElementById("lotRate").value),rmb:n(document.getElementById("lotRmb").value),basePoints:n(document.getElementById("lotBasePoints").value),bonusPoints:n(document.getElementById("lotBonusPoints").value),boxes:n(document.getElementById("lotBoxes").value),transfers:n(document.getElementById("lotTransfers").value)}}function lotCost(l){return n(l.rate)*n(l.rmb)}function lotPoints(l){return n(l.basePoints)+n(l.bonusPoints)}function lotTotals(lots=state.lots){return lots.reduce((a,l)=>{a.cost+=lotCost(l);a.points+=lotPoints(l);a.boxes+=n(l.boxes);a.transfers+=n(l.transfers);return a},{cost:0,points:0,boxes:0,transfers:0})}
 function previewLot(){const lot=getLotFromInput(),after=lotTotals([...state.lots,lot]);document.getElementById("lotPreview").innerHTML=`本單成本：<b>$ ${money(lotCost(lot))}</b>　本單點數：<b>${qty(lotPoints(lot))}</b>　本單箱子：<b>${qty(lot.boxes)}</b>　本單轉移：<b>${qty(lot.transfers)}</b><br>加入後總成本：<b>$ ${money(after.cost)}</b>　加入後總點數：<b>${qty(after.points)}</b>　加入後箱子數量：<b>${qty(after.boxes)}</b>　加入後轉移次數：<b>${qty(after.transfers)}</b>`}function addLot(){const lot=getLotFromInput();if(lot.rate<=0||lot.rmb<=0){alert("請輸入匯率與人民幣金額。");return}state.lots.push(lot);save();renderAll();previewLot();previewTx()}function fillLotDefault(){document.getElementById("lotRate").value=4.78;document.getElementById("lotRmb").value=20000;document.getElementById("lotBasePoints").value=100000;document.getElementById("lotBonusPoints").value=10280;document.getElementById("lotBoxes").value=100;document.getElementById("lotTransfers").value=10;document.getElementById("lotNote").value="";document.getElementById("lotDate").value=today();previewLot()}function clearLots(){if(!confirm("確定清空全部儲值單？交易紀錄會保留，但可能造成庫存與利潤重新計算。"))return;state.lots=[];save();renderAll();previewLot();previewTx()}function deleteLot(i){if(!confirm("確定刪除此儲值單？總成本與庫存會重新計算。"))return;state.lots.splice(i,1);save();renderAll();previewLot();previewTx()}function duplicateLot(i){const lot={...state.lots[i],id:id(),date:today(),note:(state.lots[i].note||"")+" 複製"};state.lots.push(lot);save();renderAll();previewTx()}
@@ -824,5 +570,5 @@ function updateProxyTransferInput(){const el=document.getElementById("proxyTrans
 function getCurrentTx(){const typeEl=document.getElementById("txType"),type=typeEl?typeEl.value:"proxy",tx={id:id(),date:document.getElementById("txDate").value||today(),type,note:document.getElementById("txNote").value.trim(),amount:0,points:0,boxes:0,transfers:0,transferGiven:false};if(type==="sale"){tx.amount=n(document.getElementById("saleAmount").value);tx.points=n(document.getElementById("salePoints").value);tx.boxes=n(document.getElementById("saleBoxes").value);tx.transferGiven=state.transferGiven.sale;tx.transfers=tx.transferGiven?n(document.getElementById("saleTransfers").value):0}else{tx.amount=n(document.getElementById("proxyAmount").value);tx.points=n(document.getElementById("proxyPoints").value);tx.boxes=n(document.getElementById("proxyBoxes").value);tx.transferGiven=state.transferGiven.proxy;tx.transfers=tx.transferGiven?n(document.getElementById("proxyTransfers").value):0}return tx}
 function previewTx(){const tx=getCurrentTx(),t=totals(),afterAmount=t.sold.amount+tx.amount,afterProfit=afterAmount-t.cost,rp=t.remainPoints-tx.points,rb=t.remainBoxes-tx.boxes,rt=t.remainTransfers-tx.transfers,rate=n(document.getElementById("pointRate").value),pointSuggest=rate?tx.points/rate:0;document.getElementById("saleSuggest").value="$ "+money(pointSuggest);const warnings=[];if(state.lots.length===0)warnings.push("尚未新增儲值單，總成本與庫存都是 0");if(rp<0)warnings.push("點數會超賣");if(rb<0)warnings.push("箱子會超賣");if(rt<0)warnings.push("轉移會超賣");const box=document.getElementById("txPreview");box.className="notice "+(warnings.length?"danger":(afterProfit>=0?"good":""));box.innerHTML=`本筆類型：<b>${tx.type==="proxy"?"代儲合資":"一般販售"}</b>　實收：<b>$ ${money(tx.amount)}</b>　交付：<b>${qty(tx.points)} 點 / ${qty(tx.boxes)} 箱 / ${tx.transferGiven?`給 ${qty(tx.transfers)} 次`:"不給，轉移保留"}</b><br>新增後累計收入：<b>$ ${money(afterAmount)}</b>　新增後售後利潤：<b class="${afterProfit>=0?'goodText':'badText'}">$ ${money(afterProfit)}</b><br>新增後剩餘庫存：${qty(rp)} 點 / ${qty(rb)} 箱 / ${qty(rt)} 次轉移${warnings.length?`<br><span class="badText">提醒：${warnings.join("、")}</span>`:""}`}
 function addTransaction(){previewTx();const tx=getCurrentTx();if(tx.amount<=0&&tx.points<=0&&tx.boxes<=0&&tx.transfers<=0){alert("請至少輸入一個交易內容。");return}const t=totals(),rp=t.remainPoints-tx.points,rb=t.remainBoxes-tx.boxes,rt=t.remainTransfers-tx.transfers;if((rp<0||rb<0||rt<0)&&!confirm("這筆新增後會出現超賣，仍要新增嗎？"))return;state.transactions.push(tx);save();renderAll();clearTxForm(false)}function clearTxForm(resetType=true){const typeEl=document.getElementById("txType");if(typeEl)typeEl.value="proxy";document.getElementById("txDate").value=today();document.getElementById("txNote").value="";const saleIds=["saleAmount","salePoints","saleBoxes","saleTransfers"];saleIds.forEach(x=>{const el=document.getElementById(x);if(el)el.value=x==="saleAmount"?"":0});document.getElementById("proxyAmount").value="";setTransferGiven("sale",false,false);setTransferGiven("proxy",false,false);onTxTypeChange()}function calcExchange(){const boxQty=n(document.getElementById("exchangeBoxQty")?.value),transferQty=n(document.getElementById("exchangeTransferQty")?.value);const boxPoints=boxQty*250,transferPoints=transferQty*1500;const bp=document.getElementById("exchangeBoxPoints"),tp=document.getElementById("exchangeTransferPoints");if(bp)bp.value=boxQty?qty(boxPoints):"";if(tp)tp.value=transferQty?qty(transferPoints):""}function confirmExchange(type){const t=totals();let q=0,points=0,name="";if(type==="box"){q=n(document.getElementById("exchangeBoxQty").value);points=q*250;name="儲值箱子";if(q<=0){alert("請輸入要交換的箱子數量。");return}if(q>t.remainBoxes){alert("剩餘箱子不足，無法交換。");return}}else{q=n(document.getElementById("exchangeTransferQty").value);points=q*1500;name="轉移裝備";if(q<=0){alert("請輸入要交換的轉移數量。");return}if(q>t.remainTransfers){alert("剩餘轉移不足，無法交換。");return}}if(!confirm(`確定將 ${q} 個/次 ${name} 換成 ${points.toLocaleString("zh-TW")} 點嗎？`))return;state.exchanges=state.exchanges||[];state.exchanges.push({id:id(),date:today(),type,qty:q,points});save();if(type==="box"){document.getElementById("exchangeBoxQty").value="";document.getElementById("exchangeBoxPoints").value=""}else{document.getElementById("exchangeTransferQty").value="";document.getElementById("exchangeTransferPoints").value=""}renderAll();previewTx();renderQuote();calcExchange()}function renderExchangeRecords(){const body=document.getElementById("exchangeBody");if(!body)return;const rows=(state.exchanges||[]).map((e,i)=>`<tr><td>${esc(e.date)}</td><td>${e.type==="box"?"儲值箱子":"轉移裝備"}</td><td class="num">${qty(e.qty)}</td><td class="num">${qty(e.points)}</td><td class="noPrint"><button class="smallBtn danger" onclick="deleteExchange(${i})">刪除</button></td></tr>`).join("");body.innerHTML=rows||`<tr><td colspan="5" class="mini">尚無交換紀錄。</td></tr>`}function deleteExchange(i){if(!confirm("確定刪除此交換紀錄？庫存會重新計算。"))return;(state.exchanges||[]).splice(i,1);save();renderAll();previewTx();calcExchange()}function boxCell(tx){const b=n(tx.boxes),price=n(tx.boxUnitPrice);if(b>0&&price>0)return `${qty(b)}<div class="subline">單價 $ ${money(price)}</div>`;return qty(b)}function transferCell(tx){const t=n(tx.transfers),price=n(tx.transferUnitPrice);if(t>0&&price>0)return `${qty(t)}<div class="subline">單價 $ ${money(price)}</div>`;return qty(t)}function transferStatus(tx){if(tx.type==="sale")return `<span class="slashMark">\\</span>`;return tx.transferGiven?"有給":"不給 / 保留"}function renderRecords(){const lt=inventoryTotals();let cum=0,up=0,ub=0,ut=0;const rows=state.transactions.map((tx,i)=>{cum+=n(tx.amount);up+=n(tx.points);ub+=n(tx.boxes);ut+=n(tx.transfers);const profit=cum-lt.cost,rp=lt.points-up,rb=lt.boxes-ub,rt=lt.transfers-ut;return `<tr><td>${esc(tx.date)}</td><td>${tx.type==="proxy"?"代儲":"一般"}</td><td>${esc(tx.note)}</td><td class="num">$ ${money(tx.amount)}</td><td class="num">${qty(tx.points)}</td><td class="num">${boxCell(tx)}</td><td class="num">${transferCell(tx)}</td><td>${transferStatus(tx)}</td><td class="num">$ ${money(cum)}</td><td class="num ${profit>=0?'goodText':'badText'}">$ ${money(profit)}</td><td class="num ${rp<0?'badText':''}">${qty(rp)}</td><td class="num ${rb<0?'badText':''}">${qty(rb)}</td><td class="num ${rt<0?'badText':''}">${qty(rt)}</td><td class="noPrint"><button class="smallBtn danger" onclick="deleteTx(${i})">刪除</button></td></tr>`}).join("");document.getElementById("recordsBody").innerHTML=rows||`<tr><td colspan="14" class="mini">尚無交易紀錄。</td></tr>`;document.getElementById("recordCount").textContent=`${state.transactions.length} 筆`}function deleteTx(i){if(!confirm("確定刪除這筆交易？"))return;state.transactions.splice(i,1);save();renderAll();previewTx()}function clearAllTransactions(){if(!confirm("確定清空全部交易紀錄？儲值單會保留。"))return;state.transactions=[];save();renderAll();previewTx()}function renderAll(){renderKpis();renderLots();renderExchangeRecords();renderRecords();renderDirectProxyRecords()}
-function csvCell(v){const s=String(v??"");return '"'+s.replaceAll('"','""')+'"'}function downloadText(text,fn,mime){const blob=new Blob([text],{type:mime}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=fn;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},100)}function exportCsv(){const headers=["日期","類型","備註","實收","交付點數","交付箱子","箱子單價","交付轉移","轉移單價","轉移狀態"],lines=[headers.map(csvCell).join(",")];state.transactions.forEach(tx=>lines.push([tx.date,tx.type==="proxy"?"代儲":"一般",tx.note,tx.amount,tx.points,tx.boxes,tx.boxUnitPrice||"",tx.transfers,tx.transferUnitPrice||"",tx.type==="sale"?"\\":(tx.transferGiven?"有給":"不給/保留")].map(csvCell).join(",")));downloadText("\ufeff"+lines.join("\n"),"卡貝交易紀錄.csv","text/csv;charset=utf-8")}function exportLotsCsv(){const headers=["日期","備註","匯率","人民幣","本單成本","基礎點","贈點","本單總點","箱子","轉移"],lines=[headers.map(csvCell).join(",")];state.lots.forEach(l=>lines.push([l.date,l.note,l.rate,l.rmb,lotCost(l),l.basePoints,l.bonusPoints,lotPoints(l),l.boxes,l.transfers].map(csvCell).join(",")));downloadText("\ufeff"+lines.join("\n"),"卡貝儲值單紀錄.csv","text/csv;charset=utf-8")}function exportJson(){downloadText(JSON.stringify(state,null,2),"卡貝利潤計算器_多單版備份.json","application/json;charset=utf-8")}function importJson(event){const file=event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=e=>{try{const data=JSON.parse(e.target.result);if(!Array.isArray(data.lots)||!Array.isArray(data.transactions))throw new Error("格式不符");if(!confirm("匯入後會覆蓋目前資料，確定嗎？"))return;state={...state,...data};state.settings={...state.settings,...(data.settings||{})};state.lots=data.lots||[];state.transactions=data.transactions||[];state.exchanges=Array.isArray(data.exchanges)?data.exchanges:[];state.directProxyRecords=Array.isArray(data.directProxyRecords)?data.directProxyRecords:[];state.transferGiven={...state.transferGiven,...(data.transferGiven||{})};bindSettings();save();renderAll();previewLot();autoProxy();previewTx();calcDirectProxy(false);alert("匯入完成")}catch(err){alert("匯入失敗：JSON 格式不正確。")}};reader.readAsText(file);event.target.value=""}initPasswordGate();
+function csvCell(v){const s=String(v??"");return '"'+s.replaceAll('"','""')+'"'}function downloadText(text,fn,mime){const blob=new Blob([text],{type:mime}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=fn;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},100)}function exportCsv(){const headers=["日期","類型","備註","實收","交付點數","交付箱子","箱子單價","交付轉移","轉移單價","轉移狀態"],lines=[headers.map(csvCell).join(",")];state.transactions.forEach(tx=>lines.push([tx.date,tx.type==="proxy"?"代儲":"一般",tx.note,tx.amount,tx.points,tx.boxes,tx.boxUnitPrice||"",tx.transfers,tx.transferUnitPrice||"",tx.type==="sale"?"\\":(tx.transferGiven?"有給":"不給/保留")].map(csvCell).join(",")));downloadText("\ufeff"+lines.join("\n"),"卡貝交易紀錄.csv","text/csv;charset=utf-8")}function exportLotsCsv(){const headers=["日期","備註","匯率","人民幣","本單成本","基礎點","贈點","本單總點","箱子","轉移"],lines=[headers.map(csvCell).join(",")];state.lots.forEach(l=>lines.push([l.date,l.note,l.rate,l.rmb,lotCost(l),l.basePoints,l.bonusPoints,lotPoints(l),l.boxes,l.transfers].map(csvCell).join(",")));downloadText("\ufeff"+lines.join("\n"),"卡貝儲值單紀錄.csv","text/csv;charset=utf-8")}function exportJson(){downloadText(JSON.stringify(state,null,2),"卡貝利潤計算器_多單版備份.json","application/json;charset=utf-8")}function importJson(event){const file=event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=e=>{try{const data=JSON.parse(e.target.result);if(!Array.isArray(data.lots)||!Array.isArray(data.transactions))throw new Error("格式不符");if(!confirm("匯入後會覆蓋目前資料，確定嗎？"))return;state={...state,...data};state.settings={...state.settings,...(data.settings||{})};state.lots=data.lots||[];state.transactions=data.transactions||[];state.exchanges=Array.isArray(data.exchanges)?data.exchanges:[];state.directProxyRecords=Array.isArray(data.directProxyRecords)?data.directProxyRecords:[];state.transferGiven={...state.transferGiven,...(data.transferGiven||{})};bindSettings();save();renderAll();previewLot();autoProxy();previewTx();calcDirectProxy(false);alert("匯入完成")}catch(err){alert("匯入失敗：JSON 格式不正確。")}};reader.readAsText(file);event.target.value=""}load();appLoaded=true;autoCloudLoadOnStart();
 </script></body></html>
