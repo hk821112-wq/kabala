@@ -403,7 +403,7 @@ input[type="number"]::-webkit-inner-spin-button{
   </div>
   <div class="heroMain">
     <div>
-      <h1>卡貝點數利潤計算器｜多單版 v27 GitHub GAS 同步</h1>
+      <h1>卡貝點數利潤計算器｜多單版 v28 自動同步</h1>
       <div class="subtitle">每一單儲值都可獨立輸入匯率、人民幣成本、額外贈點；總成本與總庫存會依照每一單累加。交易紀錄會顯示售後累計收入、售後利潤與剩餘庫存。</div>
     </div>
     <div class="streetBadge">
@@ -421,7 +421,7 @@ input[type="number"]::-webkit-inner-spin-button{
 <section class="card full collapsible" id="proxyTradeSection"><h2 onclick="toggleSection('proxyTradeSection')">5. 代儲合資交易</h2><div class="collapse-body"><div class="row"><div><label>日期</label><input id="txDate" type="date"></div><div><label>客人 / 備註</label><input id="txNote" placeholder="例如：客人給10000、不給轉移"></div></div><div id="proxyBox"><div class="row3"><div><label>客人給你多少台幣</label><input id="proxyAmount" type="number" min="0" step="1" placeholder="輸入台幣金額" oninput="autoProxy()"></div><div><label>轉移裝備：給 / 不給</label><div class="toggle"><button id="proxyTransferNo" type="button" class="active" onclick="setTransferGiven('proxy',false)">不給</button><button id="proxyTransferYes" type="button" onclick="setTransferGiven('proxy',true)">給</button></div></div><div><label>交付轉移次數</label><input id="proxyTransfers" type="number" min="0" step="1" value="0" disabled oninput="previewTx()"></div></div><div class="row3"><div><label>自動計算交付點數</label><input id="proxyPoints" type="number" min="0" step="1" oninput="previewTx()"></div><div><label>自動計算交付箱子</label><input id="proxyBoxes" type="number" min="0" step="1" oninput="previewTx()"></div><div><label>實收金額</label><input id="proxyAmountMirror" disabled></div></div></div><div id="saleBox" style="display:none"><input id="saleAmount"><input id="salePoints"><input id="saleBoxes"><input id="saleTransfers"><input id="saleSuggest"></div><div id="txPreview" class="notice"></div><div class="actions"><button onclick="addTransaction()">新增交易</button><button class="secondary" onclick="previewTx()">重新計算</button><button class="secondary" onclick="clearTxForm()">清空輸入</button></div></div></section>
 <section class="card printable full"><h2>6. 交易紀錄 <span class="pill" id="recordCount">0 筆</span></h2><div class="actions noPrint"><button class="secondary" onclick="exportCsv()">匯出交易 CSV</button><button class="secondary" onclick="exportLotsCsv()">匯出儲值單 CSV</button><button class="secondary" onclick="exportJson()">備份 JSON</button><button class="secondary" onclick="document.getElementById('importFile').click()">匯入 JSON</button><input id="importFile" type="file" accept=".json" style="display:none" onchange="importJson(event)"><button class="secondary" onclick="window.print()">列印</button></div><div class="tableWrap"><table><thead><tr><th>日期</th><th>類型</th><th>備註</th><th class="num">實收</th><th class="num">點數</th><th class="num">箱子</th><th class="num">轉移</th><th>轉移狀態</th><th class="num">累計收入</th><th class="num">售後利潤</th><th class="num">剩餘點數</th><th class="num">剩餘箱子</th><th class="num">剩餘轉移</th><th class="noPrint">操作</th></tr></thead><tbody id="recordsBody"></tbody></table></div></section>
 <section class="card full"><h2>7. 點數代儲</h2><div class="notice">此區獨立計算，不會影響上方儲值單、庫存、交易紀錄與利潤。</div><div class="row6"><div><label>輸入人民幣</label><input id="directRmb" type="number" min="0" step="0.01" placeholder="人民幣" oninput="calcDirectProxy(false)"></div><div><label>輸入匯率</label><input id="directRate" type="number" min="0" step="0.01" placeholder="匯率" oninput="calcDirectProxy(false)"></div><div><label>輸入實收台幣</label><input id="directReceived" type="number" min="0" step="1" placeholder="實收台幣" oninput="calcDirectProxy(false)"></div><div><label>利潤</label><input id="directProfit" disabled placeholder="自動計算"></div><div><label>備註</label><input id="directNote" placeholder="備註"></div><div><label>確定</label><button onclick="addDirectProxyRecord()">確定</button></div></div><div id="directSummary" class="directSummary"></div><div class="tableWrap" style="margin-top:14px"><table><thead><tr><th>日期</th><th class="num">人民幣</th><th class="num">匯率</th><th class="num">成本</th><th class="num">實收台幣</th><th class="num">利潤</th><th>備註</th><th class="noPrint">操作</th></tr></thead><tbody id="directProxyBody"></tbody></table></div></section>
-<section class="card full" id="cloudSyncSection"><h2>8. Google 試算表雲端同步</h2><div class="notice">此功能會把目前所有儲值單、交易紀錄、交換紀錄、點數代儲與設定備份到 Google 試算表。GitHub Pages 只負責顯示網頁，真正資料會同步到你的 Google 試算表。</div><div class="actions noPrint"><button onclick="cloudSave()">上傳到 Google 試算表</button><button class="secondary" onclick="cloudLoad()">從 Google 試算表載入</button><button class="secondary" onclick="cloudHelp()">同步設定說明</button></div><div id="cloudStatus" class="notice">尚未設定 Google Apps Script Web App URL。請先打開 HTML，把 CLOUD_API_URL 換成你的 Apps Script 網址。</div></section>
+<section class="card full" id="cloudSyncSection"><h2>8. Google 試算表自動同步</h2><div class="notice">新增、刪除、修改設定後，系統會自動更新到 Google 試算表。不需要每次手動按上傳。下方按鈕只保留給你手動備援使用。</div><div class="actions noPrint"><button onclick="cloudSave()">立即手動同步一次</button><button class="secondary" onclick="cloudLoad()">從 Google 試算表載入</button><button class="secondary" onclick="cloudHelp()">同步設定說明</button></div><div id="cloudStatus" class="notice">尚未設定 Google Apps Script Web App URL。請先打開 HTML，把 CLOUD_API_URL 換成你的 Apps Script 網址。</div></section>
 <section class="card full"><h2>公式說明</h2><div class="mini"><b>每一單成本</b> = 該單匯率 × 該單人民幣金額。<br><b>總成本</b> = 所有儲值單成本相加。<br><b>每一單點數</b> = 該單基礎點數 + 該單額外贈點。<br><b>售後利潤</b> = 截至該筆交易的累計實收金額 − 目前所有儲值單總成本。<br><b>轉移不給</b> = 不扣轉移庫存，可留著之後單獨販售。<br><b>商品交換卡貝</b> = 箱子 / 轉移換點數，不影響收入與成本，只改變剩餘庫存。<br><b>點數代儲</b> = 獨立紀錄，利潤會自動計算，不影響上方主交易資料。</div></section>
 </div>
 <footer class="streetFooter">
@@ -440,6 +440,11 @@ const STORE_KEY="kabei_profit_multi_lot_v4";let state={settings:{pointRate:1.5,p
 const CLOUD_API_URL="https://script.google.com/macros/s/AKfycbyLXhHXWQWkWfGI2j39YOvg2qm7m_GOuOQOL5SvPEN0P81zlOzHdXD8NrfIwzEVlTgZFA/exec";
 const CLOUD_TOKEN="KABEI_2026_CHANGE_ME";
 const AUTO_CLOUD_LOAD_ON_EMPTY=true;
+const AUTO_CLOUD_SAVE_DELAY=900;
+let autoCloudReady=false;
+let autoCloudTimer=null;
+let autoCloudBusy=false;
+let autoCloudPending=false;
 
 function cloudConfigured(){
   return CLOUD_API_URL&&
@@ -520,6 +525,38 @@ function cloudJsonpLoad(){
     document.body.appendChild(script);
   });
 }
+function scheduleAutoCloudSave(){
+  if(!autoCloudReady||!cloudConfigured())return;
+  clearTimeout(autoCloudTimer);
+  autoCloudTimer=setTimeout(autoCloudSaveNow,AUTO_CLOUD_SAVE_DELAY);
+}
+function autoCloudSaveNow(){
+  if(!autoCloudReady||!cloudConfigured())return;
+  if(autoCloudBusy){autoCloudPending=true;return;}
+  autoCloudBusy=true;
+  autoCloudPending=false;
+  try{
+    const body=new URLSearchParams();
+    body.set("action","save");
+    body.set("token",CLOUD_TOKEN);
+    body.set("data",JSON.stringify(state));
+    cloudStatus("正在自動同步到 Google 試算表...","");
+    fetch(CLOUD_API_URL,{method:"POST",mode:"no-cors",body})
+      .then(()=>{
+        cloudStatus("已自動同步到 Google 試算表。", "good");
+      })
+      .catch(err=>{
+        cloudStatus("自動同步失敗："+esc(err.message||err),"danger");
+      })
+      .finally(()=>{
+        autoCloudBusy=false;
+        if(autoCloudPending)scheduleAutoCloudSave();
+      });
+  }catch(err){
+    autoCloudBusy=false;
+    cloudStatus("自動同步失敗："+esc(err.message||err),"danger");
+  }
+}
 function cloudSave(){
   if(!cloudConfigured()){cloudStatus("尚未設定 CLOUD_API_URL。請先把 Apps Script 的 /exec Web App URL 貼進 HTML。","danger");return;}
   try{
@@ -556,29 +593,47 @@ function cloudLoad(){
 }
 function initCloudSync(){
   if(!cloudConfigured()){
+    autoCloudReady=false;
     cloudStatus("尚未設定 Google Apps Script Web App URL。請先把 Apps Script 的 /exec 網址貼到 HTML 的 CLOUD_API_URL。","danger");
     return;
   }
-  cloudStatus("GitHub Pages 同步已設定。可使用『上傳到 Google 試算表』與『從 Google 試算表載入』。","good");
+
   if(AUTO_CLOUD_LOAD_ON_EMPTY&&!hasLocalData()){
+    cloudStatus("本機目前沒有資料，正在自動從 Google 試算表載入...","");
     setTimeout(()=>{
-      if(hasLocalData())return;
-      cloudStatus("本機目前沒有資料，正在自動嘗試從 Google 試算表載入...","");
+      if(hasLocalData()){
+        autoCloudReady=true;
+        cloudStatus("自動同步已啟用。新增、刪除、修改後會自動更新 Google 試算表。","good");
+        return;
+      }
       cloudJsonpLoad()
         .then(res=>{
           if(!res||res.status!=="ok")throw new Error((res&&res.message)||"讀取失敗");
           const d=res.data||{};
           const cloudHasData=(Array.isArray(d.lots)&&d.lots.length)||(Array.isArray(d.transactions)&&d.transactions.length)||(Array.isArray(d.exchanges)&&d.exchanges.length)||(Array.isArray(d.directProxyRecords)&&d.directProxyRecords.length);
-          if(cloudHasData)applyCloudState(d,res,false);
-          else cloudStatus("GitHub Pages 同步已設定，但 Google 試算表目前尚無資料。","good");
+          if(cloudHasData){
+            applyCloudState(d,res,false);
+            cloudStatus("已自動載入 Google 試算表資料，自動同步已啟用。","good");
+          }else{
+            cloudStatus("自動同步已啟用。Google 試算表目前尚無資料，新增資料後會自動寫入。","good");
+          }
         })
-        .catch(err=>cloudStatus("自動載入失敗："+esc(err.message||err),"danger"));
+        .catch(err=>cloudStatus("自動載入失敗："+esc(err.message||err)+"。你仍可新增資料，之後會自動同步。","danger"))
+        .finally(()=>{autoCloudReady=true;});
     },700);
+    return;
   }
+
+  autoCloudReady=true;
+  cloudStatus("自動同步已啟用。新增、刪除、修改後會自動更新 Google 試算表。","good");
 }
 
 
-function getDirectProxyCalc(){const rmb=n(document.getElementById("directRmb")?.value),rate=n(document.getElementById("directRate")?.value),received=n(document.getElementById("directReceived")?.value),note=(document.getElementById("directNote")?.value||"").trim(),cost=rmb*rate,profit=received-cost;return{rmb,rate,received,note,cost,profit}}function calcDirectProxy(showAlert=false){const d=getDirectProxyCalc(),profitEl=document.getElementById("directProfit");if(profitEl)profitEl.value=(d.rmb>0||d.rate>0||d.received>0)?"$ "+money(d.profit):"";if(showAlert&&(d.rmb<=0||d.rate<=0||d.received<=0))alert("請輸入人民幣、匯率、實收台幣。")}function addDirectProxyRecord(){const d=getDirectProxyCalc();calcDirectProxy(true);if(d.rmb<=0||d.rate<=0||d.received<=0)return;state.directProxyRecords=state.directProxyRecords||[];state.directProxyRecords.push({id:id(),date:today(),rmb:d.rmb,rate:d.rate,received:d.received,cost:d.cost,profit:d.profit,note:d.note});save();renderDirectProxyRecords();["directRmb","directRate","directReceived","directProfit","directNote"].forEach(id=>{const el=document.getElementById(id);if(el)el.value=""})}function renderDirectProxyRecords(){const body=document.getElementById("directProxyBody"),summary=document.getElementById("directSummary"),records=state.directProxyRecords||[];if(summary){const totalCost=records.reduce((a,r)=>a+n(r.cost),0),totalReceived=records.reduce((a,r)=>a+n(r.received),0),totalProfit=records.reduce((a,r)=>a+n(r.profit),0);summary.innerHTML=`<div class="sumBox"><div class="sumName">點數代儲筆數</div><div class="sumValue">${qty(records.length)} 筆</div></div><div class="sumBox"><div class="sumName">累計實收台幣</div><div class="sumValue">$ ${money(totalReceived)}</div></div><div class="sumBox"><div class="sumName">點數代儲總利潤</div><div class="sumValue ${totalProfit>=0?'goodText':'badText'}">$ ${money(totalProfit)}</div></div>`}if(!body)return;const rows=records.map((r,i)=>`<tr><td>${esc(r.date)}</td><td class="num">${qty(r.rmb)}</td><td class="num">${Number(r.rate||0).toFixed(2)}</td><td class="num">$ ${money(r.cost)}</td><td class="num">$ ${money(r.received)}</td><td class="num ${n(r.profit)>=0?'goodText':'badText'}">$ ${money(r.profit)}</td><td>${esc(r.note||"")}</td><td class="noPrint"><button class="smallBtn danger" onclick="deleteDirectProxyRecord(${i})">刪除</button></td></tr>`).join("");body.innerHTML=rows||`<tr><td colspan="8" class="mini">尚無點數代儲交易紀錄。</td></tr>`}function deleteDirectProxyRecord(i){if(!confirm("確定刪除此點數代儲紀錄？"))return;(state.directProxyRecords||[]).splice(i,1);save();renderDirectProxyRecords()}function toggleSection(id){const el=document.getElementById(id);if(el)el.classList.toggle("open")}function clearQuoteFields(){["quotePoints","quoteBoxPrice","quoteBoxes","quoteTransferPrice","quoteTransfers","quoteNote"].forEach(id=>{const el=document.getElementById(id);if(el)el.value=""})}function today(){const d=new Date(),z=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`}function n(v){const x=Number(v);return isFinite(x)?x:0}function money(v){return Number(v||0).toLocaleString("zh-TW",{maximumFractionDigits:0})}function qty(v){return Number(v||0).toLocaleString("zh-TW",{maximumFractionDigits:0})}function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}function save(){localStorage.setItem(STORE_KEY,JSON.stringify(state))}function id(){return Date.now()+"_"+Math.random().toString(16).slice(2)}
+
+function getDirectProxyCalc(){const rmb=n(document.getElementById("directRmb")?.value),rate=n(document.getElementById("directRate")?.value),received=n(document.getElementById("directReceived")?.value),note=(document.getElementById("directNote")?.value||"").trim(),cost=rmb*rate,profit=received-cost;return{rmb,rate,received,note,cost,profit}}function calcDirectProxy(showAlert=false){const d=getDirectProxyCalc(),profitEl=document.getElementById("directProfit");if(profitEl)profitEl.value=(d.rmb>0||d.rate>0||d.received>0)?"$ "+money(d.profit):"";if(showAlert&&(d.rmb<=0||d.rate<=0||d.received<=0))alert("請輸入人民幣、匯率、實收台幣。")}function addDirectProxyRecord(){const d=getDirectProxyCalc();calcDirectProxy(true);if(d.rmb<=0||d.rate<=0||d.received<=0)return;state.directProxyRecords=state.directProxyRecords||[];state.directProxyRecords.push({id:id(),date:today(),rmb:d.rmb,rate:d.rate,received:d.received,cost:d.cost,profit:d.profit,note:d.note});save();renderDirectProxyRecords();["directRmb","directRate","directReceived","directProfit","directNote"].forEach(id=>{const el=document.getElementById(id);if(el)el.value=""})}function renderDirectProxyRecords(){const body=document.getElementById("directProxyBody"),summary=document.getElementById("directSummary"),records=state.directProxyRecords||[];if(summary){const totalCost=records.reduce((a,r)=>a+n(r.cost),0),totalReceived=records.reduce((a,r)=>a+n(r.received),0),totalProfit=records.reduce((a,r)=>a+n(r.profit),0);summary.innerHTML=`<div class="sumBox"><div class="sumName">點數代儲筆數</div><div class="sumValue">${qty(records.length)} 筆</div></div><div class="sumBox"><div class="sumName">累計實收台幣</div><div class="sumValue">$ ${money(totalReceived)}</div></div><div class="sumBox"><div class="sumName">點數代儲總利潤</div><div class="sumValue ${totalProfit>=0?'goodText':'badText'}">$ ${money(totalProfit)}</div></div>`}if(!body)return;const rows=records.map((r,i)=>`<tr><td>${esc(r.date)}</td><td class="num">${qty(r.rmb)}</td><td class="num">${Number(r.rate||0).toFixed(2)}</td><td class="num">$ ${money(r.cost)}</td><td class="num">$ ${money(r.received)}</td><td class="num ${n(r.profit)>=0?'goodText':'badText'}">$ ${money(r.profit)}</td><td>${esc(r.note||"")}</td><td class="noPrint"><button class="smallBtn danger" onclick="deleteDirectProxyRecord(${i})">刪除</button></td></tr>`).join("");body.innerHTML=rows||`<tr><td colspan="8" class="mini">尚無點數代儲交易紀錄。</td></tr>`}function deleteDirectProxyRecord(i){if(!confirm("確定刪除此點數代儲紀錄？"))return;(state.directProxyRecords||[]).splice(i,1);save();renderDirectProxyRecords()}function toggleSection(id){const el=document.getElementById(id);if(el)el.classList.toggle("open")}function clearQuoteFields(){["quotePoints","quoteBoxPrice","quoteBoxes","quoteTransferPrice","quoteTransfers","quoteNote"].forEach(id=>{const el=document.getElementById(id);if(el)el.value=""})}function today(){const d=new Date(),z=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`}function n(v){const x=Number(v);return isFinite(x)?x:0}function money(v){return Number(v||0).toLocaleString("zh-TW",{maximumFractionDigits:0})}function qty(v){return Number(v||0).toLocaleString("zh-TW",{maximumFractionDigits:0})}function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}function save(){
+  localStorage.setItem(STORE_KEY,JSON.stringify(state));
+  scheduleAutoCloudSave();
+}function id(){return Date.now()+"_"+Math.random().toString(16).slice(2)}
 function load(){const saved=localStorage.getItem(STORE_KEY);if(saved){try{const data=JSON.parse(saved);state={...state,...data};state.settings={...state.settings,...(data.settings||{})};state.lots=Array.isArray(data.lots)?data.lots:[];state.transactions=Array.isArray(data.transactions)?data.transactions:[];state.exchanges=Array.isArray(data.exchanges)?data.exchanges:[];state.directProxyRecords=Array.isArray(data.directProxyRecords)?data.directProxyRecords:[];state.transferGiven={...state.transferGiven,...(data.transferGiven||{})}}catch(e){}}else{state.lots=[];save()}document.getElementById("lotDate").value=today();document.getElementById("txDate").value=today();bindSettings();clearQuoteFields();setTransferGiven("sale",state.transferGiven.sale,false);setTransferGiven("proxy",state.transferGiven.proxy,false);previewLot();renderAll();renderQuote();autoProxy();previewTx();calcDirectProxy(false)}
 function bindSettings(){document.getElementById("pointRate").value=state.settings.pointRate;document.getElementById("proxyBonusPct").value=state.settings.proxyBonusPct;document.getElementById("proxyBoxesPer10000").value=state.settings.proxyBoxesPer10000;document.getElementById("proxyTransfersPer10000").value=state.settings.proxyTransfersPer10000}function saveSettingOnly(){state.settings.pointRate=n(document.getElementById("pointRate").value);state.settings.proxyBonusPct=n(document.getElementById("proxyBonusPct").value);state.settings.proxyBoxesPer10000=n(document.getElementById("proxyBoxesPer10000").value);state.settings.proxyTransfersPer10000=n(document.getElementById("proxyTransfersPer10000").value);save();renderAll()}
 function getLotFromInput(){return{id:id(),date:document.getElementById("lotDate").value||today(),note:document.getElementById("lotNote").value.trim(),rate:n(document.getElementById("lotRate").value),rmb:n(document.getElementById("lotRmb").value),basePoints:n(document.getElementById("lotBasePoints").value),bonusPoints:n(document.getElementById("lotBonusPoints").value),boxes:n(document.getElementById("lotBoxes").value),transfers:n(document.getElementById("lotTransfers").value)}}function lotCost(l){return n(l.rate)*n(l.rmb)}function lotPoints(l){return n(l.basePoints)+n(l.bonusPoints)}function lotTotals(lots=state.lots){return lots.reduce((a,l)=>{a.cost+=lotCost(l);a.points+=lotPoints(l);a.boxes+=n(l.boxes);a.transfers+=n(l.transfers);return a},{cost:0,points:0,boxes:0,transfers:0})}
