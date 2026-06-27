@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>卡貝點數利潤計算器｜多單版 v25 同步修正版版 密碼登入</title>
+<title>卡貝點數利潤計算器｜多單版 v25 密碼登入版 密碼登入</title>
 <style>
 :root{--bg:#f6f2ea;--panel:#fffaf2;--panel2:#fff;--ink:#21170f;--muted:#7a6a59;--line:#e5d6c4;--accent:#9a663a;--accent2:#d99b5d;--danger:#b8322b;--good:#147a45;--warn:#a66a00;--shadow:0 10px 24px rgba(70,45,20,.10);--radius:18px}*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;background:linear-gradient(180deg,#fbf8f2 0%,var(--bg) 100%);color:var(--ink)}header{max-width:1240px;margin:auto;padding:26px 20px 8px}h1{margin:0 0 8px;font-size:30px;letter-spacing:.04em}.subtitle{color:var(--muted);font-size:14px;line-height:1.7}.container{max-width:1240px;margin:auto;padding:12px 20px 34px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}.card.white{background:var(--panel2)}.card.full{grid-column:1/-1}h2{font-size:18px;margin:0 0 14px}.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.row4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}label{display:block;color:var(--muted);font-size:13px;margin:9px 0 5px}input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font-size:15px;outline:none}input:focus,select:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(217,155,93,.20)}button{border:0;border-radius:12px;padding:11px 14px;background:var(--accent);color:#fff;cursor:pointer;font-weight:800;font-size:14px}button.secondary{background:#efe3d3;color:var(--ink);border:1px solid var(--line)}button.danger{background:var(--danger)}button:active{transform:translateY(1px)}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}.kpi .name{font-size:12px;color:var(--muted);margin-bottom:7px}.kpi .value{font-size:20px;font-weight:900;letter-spacing:.02em}.kpi.good .value{color:var(--good)}.kpi.bad .value{color:var(--danger)}.kpi.warn .value{color:var(--warn)}.notice{border-left:4px solid var(--accent2);padding:10px 12px;background:#fff7ea;color:#5c432b;border-radius:10px;font-size:14px;line-height:1.65;margin-top:12px}.notice.good{border-color:var(--good);background:#eefaf3;color:#184d33}.notice.danger{border-color:var(--danger);background:#fff1ef;color:#6a211b}.mini{font-size:12px;color:var(--muted);line-height:1.7}.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#efe3d3;color:#4a3826;font-size:12px;margin-left:6px}.tableWrap{overflow:auto;border:1px solid var(--line);border-radius:16px;background:#fff}table{width:100%;min-width:1060px;border-collapse:collapse}th,td{border-bottom:1px solid var(--line);padding:10px 9px;text-align:left;font-size:13px;vertical-align:top}th{background:#f7efe4;color:#5b442e;position:sticky;top:0;z-index:1}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}tr:hover td{background:#fffaf4}.goodText{color:var(--good);font-weight:900}.badText{color:var(--danger);font-weight:900}.toggle{display:flex;gap:8px}.toggle button{flex:1;background:#efe3d3;color:#4a3826;border:1px solid var(--line)}.toggle button.active{background:var(--accent);color:#fff}.smallBtn{padding:7px 10px;font-size:12px;border-radius:10px}.card.collapsible h2{cursor:pointer;user-select:none;margin-bottom:0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.card.collapsible.open h2{margin-bottom:14px}.card.collapsible h2::after{content:"點我展開";font-size:12px;font-weight:800;color:#5b442e;background:#efe3d3;border:1px solid var(--line);border-radius:999px;padding:4px 9px}.card.collapsible.open h2::after{content:"收合"}.collapse-body{display:none}.card.collapsible.open>.collapse-body{display:block}@media(max-width:960px){.grid,.row,.row3,.row4{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}@media(max-width:560px){.kpis{grid-template-columns:1fr}h1{font-size:24px}}@media print{header,.noPrint,.actions button,.card:not(.printable){display:none!important}body{background:#fff}.container{max-width:none;padding:0}.card{box-shadow:none;border:0}}
 .subline{font-size:11px;color:var(--muted);font-weight:400;margin-top:3px;line-height:1.35;white-space:nowrap}.slashMark{color:var(--muted);font-weight:700}input[disabled]{background:#f3eee7!important;color:#9b8a78!important;cursor:not-allowed}
@@ -494,30 +494,6 @@ body:not(.appLocked) #loginScreen{
   .heroTools{align-items:flex-start}
 }
 
-.syncBtn{
-  padding:9px 12px !important;
-  font-size:14px !important;
-  box-shadow:none !important;
-  white-space:nowrap;
-}
-.syncBtn.load{
-  background:#253044 !important;
-  color:#e6edf5 !important;
-  border:1px solid #3a485c !important;
-}
-#quickSyncStatus{
-  font-size:12px !important;
-  color:#9aa8ba;
-  min-width:96px;
-  max-width:160px;
-  line-height:1.35;
-}
-@media(max-width:780px){
-  .heroTools{flex-wrap:wrap;gap:8px}
-  #quickSyncStatus{width:100%;max-width:none}
-}
-
-
 </style></head>
 <body class="appLocked">
 <div id="loginScreen" class="loginScreen">
@@ -540,14 +516,11 @@ body:not(.appLocked) #loginScreen{
   </div>
   <div class="heroMain">
     <div>
-      <h1>卡貝點數利潤計算器｜多單版 v25 同步修正版版</h1>
+      <h1>卡貝點數利潤計算器｜多單版 v25 密碼登入版</h1>
       <div class="subtitle">每一單儲值都可獨立輸入匯率、人民幣成本、額外贈點；總成本與總庫存會依照每一單累加。交易紀錄會顯示售後累計收入、售後利潤與剩餘庫存。</div>
     </div>
     <div class="heroTools">
       <button class="secondary logoutBtn" onclick="logout()">登出</button>
-      <button class="syncBtn" onclick="forceCloudUpload()">上傳雲端</button>
-      <button class="syncBtn load" onclick="forceCloudLoad()">載入雲端</button>
-      <div id="quickSyncStatus">登入後自動同步</div>
       <div class="streetBadge">
         <div class="badgeSmall">PROFIT</div>
         <div class="badgeLarge">LEDGER</div>
@@ -569,7 +542,7 @@ body:not(.appLocked) #loginScreen{
 <footer class="streetFooter">
   <div class="barcodeBlock">
     <div class="barcode"></div>
-    <div class="barcodeNum">2026 06 27 KABEI SYSTEM SYNC FIX</div>
+    <div class="barcodeNum">2026 06 27 KABEI SYSTEM HOME SYNC</div>
   </div>
   <div class="wave" aria-hidden="true">
     <span></span><span></span><span></span><span></span><span></span><span></span>
@@ -707,21 +680,6 @@ function cloudLoadSilent(onDone){
   script.src=CLOUD_API_URL+"?action=load&session="+encodeURIComponent(LOGIN_SESSION)+"&callback="+encodeURIComponent(cb)+"&_="+Date.now();
   document.body.appendChild(script);
 }
-function setQuickSyncStatus(msg){const el=document.getElementById("quickSyncStatus");if(el)el.textContent=msg}
-function forceCloudUpload(){
-  if(!LOGIN_SESSION){alert("請先登入");return}
-  cloudSaveSilent();
-  setQuickSyncStatus("已上傳雲端");
-  alert("已上傳雲端。請到主畫面 App 重新登入後按『載入雲端』。");
-}
-function forceCloudLoad(){
-  if(!LOGIN_SESSION){alert("請先登入");return}
-  setQuickSyncStatus("載入中...");
-  cloudLoadSilent(function(loaded,res){
-    if(loaded){setQuickSyncStatus("已載入雲端");alert("已載入雲端資料。")}
-    else{setQuickSyncStatus("雲端無資料");alert((res&&res.warning)||"雲端目前沒有資料，請先在有資料的畫面按『上傳雲端』。")}
-  });
-}
 function autoCloudLoadOnStart(){
   if(!cloudConfigured()||!LOGIN_SESSION)return;
   setTimeout(function(){
@@ -729,7 +687,7 @@ function autoCloudLoadOnStart(){
     cloudLoadSilent(function(loaded){
       // 首次跨裝置使用時，如果雲端還沒有資料，但目前這台設備有本機資料，就自動補上傳到 Google 試算表。
       // 這樣從手機桌面開啟的獨立 Web App，才有雲端資料可以載入。
-      if(!loaded&&localHadData){setTimeout(cloudSaveSilent,300);setQuickSyncStatus("已自動上傳")}else if(loaded){setQuickSyncStatus("已自動載入")}
+      if(!loaded&&localHadData)setTimeout(cloudSaveSilent,300);
     });
   },800);
 }
